@@ -7,6 +7,8 @@ use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
+
 
 class AuthController extends Controller
 {
@@ -41,5 +43,29 @@ class AuthController extends Controller
         $token = $user->createToken('token')->plainTextToken;
 
         return $token;
+    }
+
+    public function logout() {
+
+        // Borrar los datos de autenticación del guardia
+        $guard = Auth::guard('sanctum');
+
+        // Obtener el usuario autenticado
+        $user = $guard->user();
+
+        if ($user) {
+            // Borrar todos los tokens de API del usuario
+            $user->tokens()->delete();
+
+            Session::flush();
+
+            return response()->json([
+                "message" => "Sesion cerrada correctamente"
+            ], 200);
+        } else {
+            return response()->json([
+                "message" => "Usted no estuvo autenticado"
+            ], 401);
+        }
     }
 }
