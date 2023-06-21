@@ -22,3 +22,5 @@ RUN composer require jenssegers/mongodb
 
 RUN chown -R www-data:www-data /var/www/html \
     && a2enmod rewrite
+
+EXPOSE 80
