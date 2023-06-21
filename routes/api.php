@@ -22,3 +22,4 @@ Route::post("/auth",[AuthController::class,"checkAuth"]) -> name('check');
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
