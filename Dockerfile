@@ -1,11 +1,10 @@
-FROM php:8.1-apache
+FROM php:8.1-fpm
 
 RUN apt-get update && apt-get install -y \
     libzip-dev \
     zip \
     && docker-php-ext-install zip
 
-RUN docker-php-ext-install pdo_mysql
 RUN pecl install mongodb && docker-php-ext-enable mongodb
 
 WORKDIR /var/www/html
@@ -20,8 +19,9 @@ RUN composer require mongodb/mongodb
 
 RUN composer require jenssegers/mongodb
 
-RUN chown -R www-data:www-data /var/www/html \
-    && a2enmod rewrite
+# RUN chown -R www-data:www-data /var/www/html \
+#     && a2enmod rewrite
 
 EXPOSE 8000
+
 CMD [ "php", "/var/www/html/artisan", "serve", "--host=0.0.0.0", "--port=80" ]
