@@ -21,4 +21,4 @@ RUN composer require jenssegers/mongodb
 
 RUN chmod 777 artisan
 
-CMD ["php", "artisan", "serve", "--host:0.0.0.0", "--port=80"]
+CMD ["ls", "-al"]
