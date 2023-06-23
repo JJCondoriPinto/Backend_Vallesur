@@ -1,18 +1,32 @@
-version: '2'
-
+version: "3.7"
 services:
-  laravel:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    ports:
-      - '8000:80'
-    volumes:
-      - .:var/www/html
-    environment:
-      - DB_CONNECTION=mongodb
-      - DB_HOST=cliy0a6y8002fqm9s7yfwelqw
-      - DB_PORT=27017
-      - DB_USERNAME=cliy0a6y7001h9sqm59a12t0r
-      - DB_PASSWORD=cqBcfoOMNce2MI84G8EvApbk
-      - DB_DATABASE=vallesur
+    app:
+        build:
+            args:
+                user: vsur
+                uid: 1000
+            context: ./
+            dockerfile: Dockerfile
+        image: travellist
+        container_name: apislaravel
+        restart: unless-stopped
+        working_dir: /var/www/
+        volumes:
+        - ./:/var/www
+        networks:
+        - travellist
+    nginx:
+        image: nginx:1.17-alpine
+        container_name: travellist-nginx
+        restart: unless-stopped
+        ports:
+        - 8000:80
+        volumes:
+        - ./:/var/www
+        - ./docker-compose/nginx:/etc/nginx/conf.d
+        networks:
+        - travellist
+
+networks:
+  travellist:
+    driver: bridge
