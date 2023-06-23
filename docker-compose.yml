@@ -1,0 +1,17 @@
+version: '2'
+
+services:
+  laravel:
+    build:
+      dockerfile: Dockerfile
+    ports:
+      - '8000:8000'
+    volumes:
+      - .:/var/www/html
+    environment:
+      - DB_CONNECTION=mongodb
+      - DB_HOST=cliy0a6y8002fqm9s7yfwelqw
+      - DB_PORT=27017
+      - DB_USERNAME=cliy0a6y7001h9sqm59a12t0r
+      - DB_PASSWORD=cqBcfoOMNce2MI84G8EvApbk
+      - DB_DATABASE=vallesur
