@@ -24,4 +24,6 @@ RUN composer require jenssegers/mongodb
 
 EXPOSE 8000
 
+RUN chmod +x /var/www/html/artisan
+
 CMD [ "php", "/var/www/html/artisan", "serve", "--host=0.0.0.0", "--port=80" ]
