@@ -24,6 +24,6 @@ RUN composer require jenssegers/mongodb
 
 EXPOSE 8000
 
-RUN chmod +x /var/www/html/Backend_Vallesur/artisan
+RUN chmod 777 ./artisan
 
-CMD [ "php", "/var/www/html/Backend_Vallesur/artisan", "serve", "--host=0.0.0.0", "--port=80" ]
+CMD [ "php", "./artisan", "serve", "--host=0.0.0.0", "--port=80" ]
