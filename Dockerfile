@@ -24,4 +24,4 @@ RUN chown -R www-data:www-data /var/www/html \
     && a2enmod rewrite
 
 EXPOSE 8000
-CMD [ "php", "artisan", "serve", "--host=0.0.0.0", "--port=80" ]
+CMD [ "php", "/var/www/html/artisan", "serve", "--host=0.0.0.0", "--port=80" ]
