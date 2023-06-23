@@ -21,4 +21,4 @@ RUN composer require jenssegers/mongodb
 
 RUN chmod 777 artisan
 
-CMD ["ls", "/var/www/html/coolify"]
+CMD ["ls"]
