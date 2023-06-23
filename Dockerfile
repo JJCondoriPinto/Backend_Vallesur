@@ -1,5 +1,3 @@
-FROM docker.io/bitnami/laravel:9
-
 FROM php:8.1-apache
 
 RUN apt-get update && apt-get install -y \
@@ -26,4 +24,4 @@ RUN chown -R www-data:www-data /var/www/html \
     && a2enmod rewrite
 
 EXPOSE 8000
-CMD [ "php", "artisan", "serve", "--host=0.0.0.0" ]
+CMD [ "php", "artisan", "serve", "--host=0.0.0.0", "--port=80" ]
