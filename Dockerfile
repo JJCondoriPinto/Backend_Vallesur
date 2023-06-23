@@ -19,11 +19,6 @@ RUN composer require mongodb/mongodb
 
 RUN composer require jenssegers/mongodb
 
-# RUN chown -R www-data:www-data /var/www/html \
-#     && a2enmod rewrite
+RUN sudo chmod 777 artisan
 
-EXPOSE 8000
-
-RUN chmod 777 ./artisan
-
-CMD [ "php", "./artisan", "serve", "--host=0.0.0.0", "--port=80" ]
+CMD ["php", "artisan", "serve", "--host:0.0.0.0", "--port=80"]
