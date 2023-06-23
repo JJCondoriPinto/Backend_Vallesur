@@ -8,7 +8,7 @@ services:
     ports:
       - '8000:80'
     volumes:
-      - .:/var/www/html
+      - .:var/www/html
     environment:
       - DB_CONNECTION=mongodb
       - DB_HOST=cliy0a6y8002fqm9s7yfwelqw
