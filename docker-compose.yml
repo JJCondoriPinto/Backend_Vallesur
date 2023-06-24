@@ -3,7 +3,7 @@ services:
   myapp:
     image: docker.io/bitnami/laravel:9
     ports:
-      - '8000:8000'
+      - '8001:8000'
     environment:
       - DB_HOST=cliy0a6y8002fqm9s7yfwelqw
       - DB_PORT=27017
