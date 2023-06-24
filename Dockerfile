@@ -1,5 +1,5 @@
-FROM bitnami/laravel:9
 FROM php:8.1
+FROM bitnami/laravel:9
 
 WORKDIR /app
 COPY . .
