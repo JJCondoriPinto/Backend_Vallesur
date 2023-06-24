@@ -12,4 +12,4 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 FROM bitnami/laravel:9
 WORKDIR /app
 COPY . .
-RUN composer install --ignore-platform-req
+RUN composer install
