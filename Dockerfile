@@ -1,16 +1,15 @@
-FROM php:8.1
+FROM php:8.1-apache
 
 RUN apt-get update && apt-get install -y \
     libzip-dev \
-    zip
+    zip \
+    && docker-php-ext-install zip
 
+RUN pecl install mongodb && docker-php-ext-enable mongodb
+
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 FROM bitnami/laravel:9
 WORKDIR /app
 COPY . .
-RUN pecl channel-update pecl.php.net \
-    pecl install mongodb && docker-php-ext-enable mongodb
-
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
-
 RUN composer install
