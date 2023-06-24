@@ -1,4 +1,6 @@
 FROM bitnami/laravel:9
+FROM php:8.1
+
 WORKDIR /app
 COPY . .
 RUN apt-get update && apt-get install -y \
