@@ -1,7 +1,9 @@
 version: '2'
 services:
   myapp:
-    image: docker.io/bitnami/laravel:9
+    build:
+      context: .
+      dockerfile: Dockerfile
     ports:
       - '8001:8000'
     volumes:
