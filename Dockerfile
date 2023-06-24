@@ -25,7 +25,7 @@ RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Install extensions
 # RUN docker-php-ext-configure gd --with-gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ --with-png-dir=/usr/include/
-RUN docker-php-ext-install gd
+# RUN docker-php-ext-install gd
 
 # Install composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
@@ -33,10 +33,11 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 # Add user for laravel application
 RUN groupadd -g 1000 www
 RUN useradd -u 1000 -ms /bin/bash -g www www
+RUN pecl install mongodb && docker-php-ext-enable mongodb
 
 # Copy existing application directory contents
 COPY . /var/www
-RUN pecl install mongodb && docker-php-ext-enable mongodb
+
 # Copy existing application directory permissions
 COPY --chown=www:www . /var/www
 
@@ -44,5 +45,5 @@ COPY --chown=www:www . /var/www
 USER www
 
 # Expose port 9000 and start php-fpm server
-EXPOSE 8000
+EXPOSE 9000
 CMD ["php-fpm"]
