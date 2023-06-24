@@ -10,7 +10,8 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 
 FROM bitnami/laravel:9
 RUN apt-get install autoconf \
-    pecl install mongodb && docker-php-ext-enable mongodb
+    && pecl install mongodb \
+    && docker-php-ext-enable mongodb
 WORKDIR /app
 COPY . .
 RUN composer install
