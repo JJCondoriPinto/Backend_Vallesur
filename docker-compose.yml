@@ -1,43 +1,13 @@
-version: '3'
+version: '2'
 services:
-
-  #PHP Service
-  app:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    container_name: app
-    restart: unless-stopped
-    tty: true
-    environment:
-      SERVICE_NAME: app
-      SERVICE_TAGS: dev
-    working_dir: /var/www
-    volumes:
-      - ./:/var/www
-      - ./php/local.ini:/usr/local/etc/php/conf.d/local.ini
-    networks:
-      - app-network
-
-  #Nginx Service
-  webserver:
-    image: nginx:alpine
-    container_name: webserver
-    restart: unless-stopped
-    tty: true
+  myapp:
+    image: docker.io/bitnami/laravel:9
     ports:
-      - "8000:80"
+      - '8000:8000'
+    environment:
+      - DB_HOST=cliy0a6y8002fqm9s7yfwelqw
+      - DB_PORT=27017
+      - DB_USERNAME=cliy0a6y7001h9sqm59a12t0r
+      - DB_DATABASE=cqBcfoOMNce2MI84G8EvApbk
     volumes:
-      - ./:/var/www
-      - ./nginx/conf.d/:/etc/nginx/conf.d/
-    networks:
-      - app-network
-
-#Docker Networks
-networks:
-  app-network:
-    driver: bridge
-#Volumes
-volumes:
-  dbdata:
-    driver: local
+      - '.:/app'
