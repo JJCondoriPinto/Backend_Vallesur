@@ -12,3 +12,5 @@ WORKDIR /app
 COPY . .
 COPY php.ini ../opt/bitnami/php/etc/
 COPY run.sh ../opt/bitnami/scripts/laravel/
+
+USER root
