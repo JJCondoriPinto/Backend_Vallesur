@@ -20,9 +20,12 @@ cd /app
 declare -a start_flags=("artisan" "serve" "--host=0.0.0.0" "--port=${LARAVEL_PORT_NUMBER}")
 start_flags+=("$@")
 
+declare -a start_migrate=("artisan" "migrate")
+start_migrate+=("$@")
+
 info "** Starting Laravel project **"
 
 # php artisan migrate
-php "artisan migrate"
+php "${start_migrate[@]}"
 
 php "${start_flags[@]}"
