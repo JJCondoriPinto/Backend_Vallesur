@@ -96,11 +96,7 @@ return [
         'mongodb' => [
             'driver' => 'mongodb',
             'database' => env('DB_DATABASE'),
-            // 'host' => env('DB_HOST', 'localhost'),
-            // 'port' => env('DB_PORT', '27017'),
-            // 'username' => env('DB_USERNAME', 'forge'),
-            // 'password' => env('DB_PASSWORD', ''),
-            'dsn' => 'mongodb://cljat9zoi00ae9sqm4xqwdyv8:qRQvEOpDUU2o53vziHHkqbMc@cljat9zol00d7qm9s4vdup5cg:27017/?readPreference=primary&ssl=false',
+            'dsn' => 'mongodb://cljc0d8jg00bw9sqm2f2f9iud:nVqd1NK4Gg6XRO1sM2SfheDy@cljc0d8jh00ekqm9s58ho3idm:27017/?readPreference=primary&ssl=false',
         ]
 
     ],
