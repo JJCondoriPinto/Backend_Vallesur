@@ -23,9 +23,15 @@ start_flags+=("$@")
 declare -a start_migrate=("artisan" "migrate")
 start_migrate+=("$@")
 
+declare -a start_seed=("artisan" "db:seed" "DatabaseSeeder")
+start_seed+=("$@")
+
 info "** Starting Laravel project **"
 
-# php artisan migrate
+# migraciones iniciales
 php "${start_migrate[@]}"
+
+# seeder para primeros usuarios
+php "${start_seed[@]}"
 
 php "${start_flags[@]}"
