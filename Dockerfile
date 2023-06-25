@@ -12,7 +12,5 @@ WORKDIR /app
 COPY . .
 COPY php.ini ../opt/bitnami/php/etc/
 
-RUN php artisan migrate
-
 ENTRYPOINT [ "/opt/bitnami/scripts/laravel/entrypoint.sh" ]
-CMD [ "/opt/bitnami/scripts/laravel/run.sh" ]
+CMD [ "php", "/app/artisan", "migrate", "/opt/bitnami/scripts/laravel/run.sh" ]
