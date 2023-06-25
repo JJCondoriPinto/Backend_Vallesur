@@ -6,13 +6,14 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 
 
 class AuthController extends Controller
 {
-    public function checkAuth(Request $req)
+    public function checkAuth(Request $request)
     {
         if (Auth::guard('sanctum')->check()) {
             return response()->json([
@@ -24,6 +25,35 @@ class AuthController extends Controller
                 'status' => 400,
                 'message' => 'No autenticado',
             ], 400);
+        }
+    }
+
+    public function checkAuthRole(Request $request)
+    {
+        if ($request->input("rol") == "gerente") {
+            if (Auth::guard('sanctum')->check() && Auth::guard('sanctum')->user()->rol == "gerente") {
+                return response()->json([
+                    "status" => 200,
+                    "message" => "pasa"
+                ]);
+            } else {
+                return response()->json([
+                    "status" => 400,
+                    "message" => "no pasa"
+                ]);
+            }
+        } else if ($request->input("rol") == "admin") {
+            if (Auth::guard('sanctum')->check() && Auth::guard('sanctum')->user()->rol == "admin") {
+                return response()->json([
+                    "status" => 200,
+                    "message" => "pasa"
+                ]);
+            } else {
+                return response()->json([
+                    "status" => 400,
+                    "message" => "no pasa"
+                ]);
+            }
         }
     }
 
@@ -67,5 +97,43 @@ class AuthController extends Controller
                 "message" => "Usted no estuvo autenticado"
             ], 401);
         }
+    }
+
+    public function register(Request $req)
+    {
+        $validator = Validator::make($req->all(), [
+            "nombres" => "required|string|max:255",
+            "email" => "required|string|email|max:255|unique:users",
+            "password" => "required|string|min:8",
+            "rol" => "required|string|min:4",
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                "status" => 400,
+                "message" => "No se pudo registrar",
+                "error" => $validator->errors()
+            ], 400);
+        }
+
+        $user = User::create(
+            [
+                "nombres" => $req->name,
+                "email" => $req->email,
+                "password" => Hash::make($req->password),
+                "rol" => $req->role,
+                "telefono" => $req->phone,
+                "turno" => $req->turno,
+                "apellidos" => $req->lastName,
+                "dni" => $req->dni,
+
+            ]
+        );
+        $token = $user->createToken("token")->plainTextToken;
+
+        return response()->json([
+            "status" => 200,
+            "message" => "Administrador creado correctamente"
+        ]);
     }
 }
