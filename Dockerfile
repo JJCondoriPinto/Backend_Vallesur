@@ -11,6 +11,6 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 WORKDIR /app
 COPY . .
 COPY php.ini ../opt/bitnami/php/etc/
-COPY run.sh ../opt/bitnami/scripts/laravel/
+COPY --chown=bitnami run.sh ../opt/bitnami/scripts/laravel/
 
-RUN ["chmod", "+rwx", "/opt/bitnami/scripts/laravel/"]
+RUN ["chmod", "+rwx", "/opt/bitnami/scripts/laravel/run.sh"]
