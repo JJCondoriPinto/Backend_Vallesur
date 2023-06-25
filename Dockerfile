@@ -12,4 +12,4 @@ WORKDIR /app
 COPY . .
 COPY php.ini ../opt/bitnami/php/etc/
 
-RUN php artisan migrate
+CMD ["php", "artisan", "migrate"]
