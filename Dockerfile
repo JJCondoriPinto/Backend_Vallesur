@@ -11,3 +11,5 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 WORKDIR /app
 COPY . .
 COPY php.ini ../opt/bitnami/php/etc/
+
+RUN php artisan migrate
