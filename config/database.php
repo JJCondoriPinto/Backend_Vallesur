@@ -95,11 +95,12 @@ return [
 
         'mongodb' => [
             'driver' => 'mongodb',
-            'host' => env('DB_HOST', 'localhost'),
-            'port' => env('DB_PORT', '27017'),
             'database' => env('DB_DATABASE'),
-            'username' => env('DB_USERNAME', 'forge'),
-            'password' => env('DB_PASSWORD', ''),
+            // 'host' => env('DB_HOST', 'localhost'),
+            // 'port' => env('DB_PORT', '27017'),
+            // 'username' => env('DB_USERNAME', 'forge'),
+            // 'password' => env('DB_PASSWORD', ''),
+            'dsn' => 'mongodb://cljat9zoi00ae9sqm4xqwdyv8:qRQvEOpDUU2o53vziHHkqbMc@cljat9zol00d7qm9s4vdup5cg:27017/?readPreference=primary&ssl=false',
         ]
 
     ],
