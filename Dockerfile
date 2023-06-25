@@ -13,4 +13,4 @@ COPY . .
 COPY php.ini ../opt/bitnami/php/etc/
 
 ENTRYPOINT [ "/opt/bitnami/scripts/laravel/entrypoint.sh" ]
-CMD "php artisan migrate" && [ "/opt/bitnami/scripts/laravel/run.sh" ]
+CMD ["php", "artisan", "migrate"] && [ "/opt/bitnami/scripts/laravel/run.sh" ]
