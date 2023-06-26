@@ -11,4 +11,18 @@ class Huesped extends Model
     use HasFactory;
 
     protected $collection = "Huespedes";
+
+    protected $fillable = [
+        'identificacion',
+        'nombres',
+        'apellidos',
+        'sexo',
+        'fecha_nacimiento',
+        'nacionalidad',
+        'region',
+        'direccion',
+        'telefono',
+        'correo',
+        'empresa'
+    ];
 }
