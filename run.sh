@@ -32,6 +32,6 @@ info "** Starting Laravel project **"
 php "${start_migrate[@]}"
 
 # seeder para primeros usuarios
-php "${start_seed[@]}"
+# php "${start_seed[@]}"
 
 php "${start_flags[@]}"
