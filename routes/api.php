@@ -44,6 +44,24 @@ Route::get("/checkout",[ApiController::class,"listCheckOut"]);
 Route::get("/habitaciones",[ApiController::class,"listHabitaciones"]);
 //End point para obtener datos de graficas Gerente
 //Route::get("/graficos",[ApiController::class,"graficar_barras"]);
+// End point para tener las credenciales de un usuario autenticado
+Route::get("/auth/info",[ApiController::class,"getUser"]);
+//End point para obtener huesped con dni
+Route::get("/huesped",[ApiController::class,"getHuesped"]);
+//End point para crear huesped
+Route::post("/huesped",[ApiController::class,"createHuesped"]);
+//End point para obtener los recepcionistas
+Route::get("/recepcionistas",[ApiController::class,"listRecepcionistas"]);
+//End point para eliminar recepcionistas
+Route::delete("/recepcionistas/{id}",[ApiController::class,"deleteRecepcionista"]);
+// End point para obtener todos los huespedes.
+Route::get("/huespedes", [ApiController::class, "listarHuespedes"]);
+// End point para actualizar un huesped especificado.
+Route::put("/huespedes-update/{id}", [ApiController::class, "actualizarHuespedes"]);
+// End point para sacar reservas de un solo huesped.
+Route::get("/reserva/{id}", [ApiController::class, "listaReservaFromOne"]);
+//End point para sacar habitaciones unicas en su tipo
+Route::get("/habitacion/top", [ApiController::class,"listaHabitacionesTop"]);
 // End point para obtener datos de grafico de barras nacionalidad huespedes
 Route::get("graficos_barras_1",[ApiController::class,"huesped_por_nacionalidad"]);
 // End point para obtener datos de grafico de linear

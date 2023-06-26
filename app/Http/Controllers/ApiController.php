@@ -15,6 +15,365 @@ use App\Models\Servicio;
 
 class ApiController extends Controller
 {
+
+    public function listHabitaciones(Request $req)
+    {
+        $query = Habitacion::query();
+
+        if ($req->has("tipo")) {
+            $query->where("tipo_habitacion", $req->input("tipo"));
+        }
+
+        if ($req->has("precio")) {
+            $precio = $req->input("precio");
+            if ($precio == "barato") {
+                $query->whereBetween("precio", [0, 100]);
+            } elseif ($precio == "medio") {
+                $query->whereBetween("precio", [101, 150]);
+            } elseif ($precio == "caro") {
+                $query->whereBetween("precio", [151, 250]);
+            }
+        }
+
+        if ($req->has("features")) {
+            $features = $req->input("features");
+            if ($features == "tele") {
+                $query->where("caracteristicas", "Tele");
+            } elseif ($features == "baño") {
+                $query->where("caracteristicas", "baño");
+            }
+        }
+        if ($req->has("order")) {
+            $ordenamiento = $req->input("order");
+            $direccion = $req->has("by") ? $req->input("by") : "asc";
+            
+            $query->orderBy($ordenamiento, $direccion);
+        }
+        
+        
+        $habitaciones = $query->get();
+
+        if ($habitaciones->isNotEmpty()) {
+            $cantidad = $habitaciones->count();
+            return response()->json([
+                "status" => 200,
+                "message" => "Se encontraron $cantidad habitaciones",
+                "data" => $habitaciones,
+            ]);
+        } else {
+            return response()->json([
+                "status" => 400,
+                "message" => "No hay Habitaciones",
+                "data" => [],
+            ], 400);
+        }
+    }
+    public function getUser(Request $req)
+    {
+        $user = Auth::guard('sanctum')->user();
+        if ($user) {
+            return response()->json([
+                "status" => 200,
+                "message" => "Bienvenido",
+                "data" => $user
+            ]);
+        } else {
+            return response()->json([
+                "status" => 400,
+                "message" => "Error",
+                "data" => []
+            ], 400);
+        }
+    }
+    public function getHuesped(Request $req)
+    {
+        $validator = Validator::make($req->all(), [
+            "tipo" => "required|string|in:dni,id,extranjero",
+            "id" => "required|string",
+        ]);
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => 400,
+                'message' => "Parametro incorrecto",
+                'error' => $validator->errors(),
+            ], 400);
+        }
+        if ($req->tipo == "dni") {
+            $id = $req->id;
+            $huesped = Huesped::where('identificacion.identificacion_huesped', $id)
+                ->where('identificacion.tipo_identificacion', 'DNI')
+                ->first();
+
+            if ($huesped) {
+                return response()->json([
+                    "status" => 200,
+                    "message" => "Se encontro 1 huesped",
+                    "data" => $huesped
+                ]);
+            } else {
+                return response()->json([
+                    "status" => 400,
+                    "message" => "No se encontraron huespedes con el id: $id",
+                    "data" => []
+                ], 400);
+            }
+        } else if ($req->tipo == "extranjero") {
+            $id = $req->id;
+            $huesped = Huesped::where('identificacion.identificacion_huesped', $id)
+                ->where('identificacion.tipo_identificacion', 'Identificacion Extranjera')
+                ->first();
+
+            if ($huesped) {
+                return response()->json([
+                    "status" => 200,
+                    "message" => "Se encontro 1 huesped",
+                    "data" => $huesped
+                ]);
+            } else {
+                return response()->json([
+                    "status" => 400,
+                    "message" => "No se encontraron huespedes con el id: $id",
+                    "data" => []
+                ], 400);
+            }
+        } else {
+            $id = $req->id;
+            $huesped = Huesped::find($id);
+            if ($huesped) {
+                return response()->json([
+                    "status" => 200,
+                    "message" => "Se encontro 1 huesped",
+                    "data" => $huesped
+                ]);
+            } else {
+                return response()->json([
+                    "status" => 400,
+                    "message" => "No se encontraron huespedes con el id: $id",
+                    "data" => []
+                ], 400);
+            }
+        }
+    }
+    public function createHuesped(Request $req)
+    {
+        $validator = Validator::make($req->all(), [
+            "nombre_huesped" => "required|string|max:255",
+            "apellido_huesped" => "required|string|max:255",
+            "tipo_identificacion_huesped" => "required|string|in:Dni,Carnet Extranjeria",
+            "identificacion_huesped" => "required|integer",
+            "sexo_huesped" => "required|string|in:Masculino,Femenino",
+            "fecha_nacimiento_huesped" => "required|date_format:Y-m-d",
+            "nacionalidad_huesped" => "required|string",
+            "region_huesped" => "required|string",
+            "direccion_huesped" => "required|string",
+            "telefono_huesped" => "required|integer",
+            "correo_huesped" => "required|string|email|max:255|unique:users",
+            "nombre_empresa" => "max:255",
+            "ruc_empresa" => "max:255",
+            "razon_social" => "max:255",
+            "direccion_empresa" => "max:255",
+        ]);
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => 400,
+                'message' => "Revisa tus datos",
+                'error' => $validator->errors(),
+            ], 400);
+        }
+        $huesped = Huesped::create([
+            "identificacion" => array(
+                "tipo_identificacion" => $req->input("tipo_identificacion_huesped"),
+                "identificacion_huesped" => $req->input("identificacion_huesped")
+            ),
+            "nombres" => $req->input("nombre_huesped"),
+            "apellidos" => $req->input("apellido_huesped"),
+            "sexo" => $req->input("sexo_huesped"),
+            "fecha_nacimiento" => $req->input("fecha_nacimiento_huesped"),
+            "nacionalidad" => $req->input("nacionalidad_huesped"),
+            "region" => $req->input("region_huesped"),
+            "direccion" => $req->input("direccion_huesped"),
+            "telefono" => $req->input("telefono_huesped"),
+            "correo" => $req->input("correo_huesped"),
+            "empresa" => array(
+                "nombre_empresa" => $req->input("nombre_empresa"),
+                "ruc_empresa" => $req->input("ruc_empresa"),
+                "razon_social" => $req->input("razon_social_empresa"),
+                "direccion_empresa" => $req->input("direccion_empresa")
+            )
+        ]);
+        return response()->json([
+            'status' => 200,
+            'message' => 'Huesped registrado con exito',
+            'data' => $huesped
+        ], 200);
+    }
+    public function listaHabitacionesTop(Request $req){
+        $habitaciones = Habitacion::raw(function ($collection) {
+            return $collection->aggregate([
+                [
+                    '$group' => [
+                        '_id' => '$tipo_habitacion',
+                        'doc' => ['$first' => '$$ROOT']
+                    ]
+                ],
+                [
+                    '$replaceRoot' => [
+                        'newRoot' => '$doc'
+                    ]
+                ]
+            ]);
+        });
+        
+        
+
+
+        if($habitaciones){
+            return response()->json([
+                "status"=>200,
+                "message"=>"Se encontraron habitaciones",
+                "data"=>$habitaciones
+            ],200);
+        }else{
+            return response()->json([
+                "status"=>400,
+                "message"=>"No se encontraron habitaciones",
+            ],400);
+        }
+
+    }
+    public function listaReservaFromOne(Request $req,$id){
+        $reservas = Reserva::where("id_huesped",$id)->with("huesped")->with("habitacion")->get();
+        if($reservas->isEmpty()){
+            return response()->json([
+                "status"=>400,
+                "message"=>"No se encontraron reservas",
+            ],400);
+        }
+        return response()->json([
+            "status"=>200,
+            "message"=>"Se encontraron reservas",
+            "data"=>$reservas
+        ]);
+    }
+    public function actualizarHuespedes(Request $req, $id)
+    {
+        // Validación de los datos de entrada
+        $validator = Validator::make($req->all(), [
+            "nombre_huesped" => "required|string|max:255",
+            "apellido_huesped" => "required|string|max:255",
+            "tipo_identificacion_huesped" => "required|string|in:DNI,Identificacion Extranjera",
+            "identificacion_huesped" => "required|integer",
+            "sexo_huesped" => "required|string|in:masculino,femenino",
+            "fecha_nacimiento_huesped" => "required|date_format:Y-m-d",
+            "nacionalidad_huesped" => "required|string",
+            "region_huesped" => "required|string",
+            "direccion_huesped" => "required|string",
+            "telefono_huesped" => "required|integer",
+            "correo_huesped" => "required|string|email|max:255|unique:users",
+            "nombre_empresa" => "max:255",
+            "ruc_empresa" => "max:255",
+            "razon_social_empresa" => "max:255",
+            "direccion_empresa" => "max:255",
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => 400,
+                'message' => "Revisa tus datos",
+                'error' => $validator->errors(),
+            ], 400);
+        }
+
+        $huesped = Huesped::find($id);
+
+        if (!$huesped) {
+            return response()->json([
+                'status' => 404,
+                'message' => 'Huesped no encontrado',
+            ], 404);
+        }
+
+        $huesped->update([
+            "identificacion" => [
+                "tipo_identificacion" => $req->input("tipo_identificacion_huesped"),
+                "identificacion_huesped" => $req->input("identificacion_huesped")
+            ],
+            "nombres" => $req->input("nombre_huesped"),
+            "apellidos" => $req->input("apellido_huesped"),
+            "sexo" => $req->input("sexo_huesped"),
+            "fecha_nacimiento" => $req->input("fecha_nacimiento_huesped"),
+            "nacionalidad" => $req->input("nacionalidad_huesped"),
+            "region" => $req->input("region_huesped"),
+            "direccion" => $req->input("direccion_huesped"),
+            "telefono" => $req->input("telefono_huesped"),
+            "correo" => $req->input("correo_huesped"),
+            "empresa" => [
+                "nombre_empresa" => $req->input("nombre_empresa"),
+                "ruc_empresa" => $req->input("ruc_empresa"),
+                "razon_social" => $req->input("razon_social_empresa"),
+                "direccion_empresa" => $req->input("direccion_empresa")
+            ]
+        ]);
+
+        return response()->json([
+            'status' => 200,
+            'message' => 'Datos del huésped actualizados con éxito',
+            'data' => $huesped
+        ], 200);
+    }
+    public function listarHuespedes()
+    {
+        $huespedes = Huesped::all();
+        if ($huespedes) {
+            $cantidad = $huespedes->count();
+            return response()->json([
+                "status" => 200,
+                "message" => "Se han encontrado $cantidad huespedes",
+                "data" => $huespedes
+            ]);
+        } else {
+            return response()->json([
+                "status" => 400,
+                "message" => "No se han encontrado huespedes"
+            ], 400);
+        }
+    }
+    public function deleteRecepcionista(Request $req)
+    {
+        $id = $req->id;
+
+        $deleted = Administrador::destroy($id);
+
+        if ($deleted) {
+            return response()->json([
+                'status' => 200,
+                'message' => 'Recepcionista eliminado correctamente',
+            ], 200);
+        } else {
+            return response()->json([
+                'status' => 400,
+                'message' => 'Recepcionista no encontrado',
+            ], 400);
+        }
+    }
+    public function listRecepcionistas(Request $req)
+    {
+        $administradores = Administrador::where('rol', 'admin')->get();
+        if ($administradores) {
+            $cantidad = $administradores->count();
+            return response()->json([
+                "status" => 200,
+                "message" => "Se han encontrado $cantidad recepcionistas",
+                "data" => $administradores
+            ]);
+        } else {
+            return response()->json([
+                "status" => 400,
+                "message" => "No se han encontrado recepcionistas",
+                "data" => []
+            ], 400);
+        }
+    }
     public function servicios_mas_consumidos ()
     {
         $result = Servicio::raw(function ($collection) {
@@ -143,45 +502,47 @@ public function checkins_por_año()
 
     public function listReservas(Request $req)
     {
-        $reservas = Reserva::all();
-        if ($reservas) {
-            return response()->json([
-                "status" => 400,
-                "message" => "No hay reservas",
-                "data" => [],
-            ], 400);
-        } else {
+        $query = Reserva::query();
+
+        //$reservas = Reserva::all();
+
+        if ($req->has("id")) {
+            $query->where("_id", $req->input("id"));
+        }
+        $reservas = $query->with('huesped')->with("habitacion")->get();
+
+        if ($reservas->isNotEmpty()) {
             $cantidad = $reservas->count();
             return response()->json([
                 "status" => 200,
                 "message" => "Se encontraron $cantidad reservas",
                 "data" => $reservas,
             ]);
+        } else {
+            return response()->json([
+                "status" => 400,
+                "message" => "No hay Reservas",
+                "data" => [],
+            ], 400);
         }
     }
     public function storeReservas(Request $request)
     {
         //
         $validator = Validator::make($request->all(), [
-            "nombre_huesped" => "required|string|max:255",
-            "apellido_huesped" => "required|string|max:255",
-            "tipo_identificacion_huesped" => "required|string|in:dni,carnet extranjeria",
-            "identificacion_huesped" => "required|integer",
-            "sexo_huesped" => "required|string|in:hombre,mujer",
-            "fecha_nacimiento_huesped" => "required|date_format:d-m-Y",
-            "nacionalidad_huesped" => "required|string",
-            "region_huesped" => "required|string",
-            "direccion_huesped" => "required|string",
-            "telefono_huesped" => "required|integer",
-            "correo_huesped" => "required|string|email|max:255|unique:users",
-            "ruc_empresa" => "integer",
-            "razon_social_empresa" => "string",
-            "direccion_empresa" => "string",
-            "fecha_reserva" => "required|required|date_format:d-m-Y H:i",
+
+            "id_huesped" => "required|string|unique:users",
+            "fecha_reserva" => "required|date_format:d-m-Y H:i",
             "cantidad_dias_reserva" => "required|integer",
             "pax_reserva" => "required|integer",
-            "nro_habitacion_reserva" => "required|integer",
-            "tipo_habitacion_reserva" => "required|string",
+            "id_habitacion_reserva" => "required|string",
+            "tipo_reserva"=>"required|string",
+            "razon_hospedaje"=>"required|string",
+            "destinatario_reserva"=>"required|string",
+            "hora_llegada"=>"required|string",
+            "fecha_checkin"=>"required|string",
+            "fecha_checkout"=>"required|string",
+
         ]);
         if ($validator->fails()) {
             return response()->json([
@@ -189,98 +550,32 @@ public function checkins_por_año()
                 'message' => $validator->errors(),
             ], 400);
         }
-        $dataIdentificacion = [
-            "tipo_identificacion" => $request->tipo_identificacion_huesped,
-            "identificacion_huesped" => $request->identificacion_huesped
-        ];
-        $dataEmpresa = [
-            "ruc_empresa" => $request->ruc_empresa,
-            "razon_social_empresa" => $request->razon_social_empresa,
-            "direccion_empresa" => $request->direccion_empresa,
-        ];
-        $dataHuesped = [
-            "nombre_huesped" => $request->nombre_huesped,
-            "apellido_huesped" => $request->apellido_huesped,
-            "identificacion" => $dataIdentificacion,
-            "sexo" => $request->sexo_huesped,
-            "fecha_nacimiento" => $request->fecha_nacimiento_huesped,
-            "nacionalidad_huesped" => $request->nacionalidad_huesped,
-            "region_huesped" => $request->region_huesped,
-            "direccion_huesped" => $request->direccion_huesped,
-            "telefono_huesped" => $request->telefono_huesped,
-            "correo_huesped" => $request->correo_huesped,
-            "empresa" => $dataEmpresa
-        ];
-        $dataHabitacion = [
-            "nro_habitacion_reserva" => $request->nro_habitacion_reserva,
-            "tipo_habitacion_reserva" => $request->tipo_habitacion_reserva,
-        ];
+
 
         $dataReserva = [
             "fecha_reserva" => $request->fecha_reserva,
             "cantidad_dias_reserva" => $request->cantidad_dias_reserva,
             "pax_reserva" => $request->pax_reserva,
-            "habitacion" => $dataHabitacion
+            "tipo_reserva"=>$request->tipo_reserva,
+            "razon_hospedaje"=>$request->razon_hospedaje,
+            "destinatario_reserva"=>$request->destinatario_reserva,
+            "peticiones_adicionales"=>$request->peticiones_adicionales,
+            "hora_llegada"=>$request->hora_llegada,
+            "fecha_checkin"=>$request->fecha_checkin,
+            "fecha_checkout"=>$request->fecha_checkout
+            
         ];
-        $data = [
-            "datosHuesped" => $dataHuesped,
-            "datosReserva" => $dataReserva
-        ];
-        $reserva = new Reserva;
-        $reserva->datosHuesped = $data["datosHuesped"];
-        $reserva->datosReserva = $data["datosReserva"];
-        $reserva->save();
+        $reserva = Reserva::create([
+            "id_huesped" => $request->id_huesped,
+            "datosReserva" => $dataReserva,
+            "id_habitacion" => $request->id_habitacion_reserva,
+        ]);
         return response()->json([
             'status' => 200,
             'message' => 'Reserva realizada con exito',
         ], 200);
     }
 
-    public function listHabitaciones(Request $req)
-    {
-        $query = Habitacion::query();
-
-        if ($req->has("tipo")) {
-            $query->where("tipo_habitacion", $req->input("tipo"));
-        }
-
-        if ($req->has("precio")) {
-            $precio = $req->input("precio");
-            if ($precio == "barato") {
-                $query->whereBetween("precio", [0, 100]);
-            } elseif ($precio == "medio") {
-                $query->whereBetween("precio", [101, 150]);
-            } elseif ($precio == "caro") {
-                $query->whereBetween("precio", [151, 250]);
-            }
-        }
-
-        if ($req->has("features")) {
-            $features = $req->input("features");
-            if ($features == "tele") {
-                $query->where("caracteristicas", "Tele");
-            } elseif ($features == "baño") {
-                $query->where("caracteristicas", "baño");
-            }
-        }
-
-        $habitaciones = $query->get();
-
-        if ($habitaciones->isNotEmpty()) {
-            $cantidad = $habitaciones->count();
-            return response()->json([
-                "status" => 200,
-                "message" => "Se encontraron $cantidad habitaciones",
-                "data" => $habitaciones,
-            ]);
-        } else {
-            return response()->json([
-                "status" => 400,
-                "message" => "No hay Habitaciones",
-                "data" => [],
-            ], 400);
-        }
-    }
     public function listCheckOut()
     {
         $checksOut = Checkout::all();
