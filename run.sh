@@ -20,11 +20,13 @@ cd /app
 declare -a start_flags=("artisan" "serve" "--host=0.0.0.0" "--port=${LARAVEL_PORT_NUMBER}")
 start_flags+=("$@")
 
-declare -a start_migrate=("artisan" "migrate")
+declare -a start_migrate=("artisan" "migrate:fresh")
 start_migrate+=("$@")
 
 declare -a start_seed=("artisan" "db:seed" "DatabaseSeeder")
 start_seed+=("$@")
+
+declare -a start_seed_habit=("artisan" "db:seed" "HabitacionesSeeder")
 
 info "** Starting Laravel project **"
 
@@ -32,6 +34,7 @@ info "** Starting Laravel project **"
 php "${start_migrate[@]}"
 
 # seeder para primeros usuarios
-# php "${start_seed[@]}"
+php "${start_seed[@]}"
+php "${start_seed_habit[@]}"
 
 php "${start_flags[@]}"
