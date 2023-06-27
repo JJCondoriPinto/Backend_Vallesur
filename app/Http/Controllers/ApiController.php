@@ -46,11 +46,11 @@ class ApiController extends Controller
         if ($req->has("order")) {
             $ordenamiento = $req->input("order");
             $direccion = $req->has("by") ? $req->input("by") : "asc";
-            
+
             $query->orderBy($ordenamiento, $direccion);
         }
-        
-        
+
+
         $habitaciones = $query->get();
 
         if ($habitaciones->isNotEmpty()) {
@@ -223,8 +223,8 @@ class ApiController extends Controller
                 ]
             ]);
         });
-        
-        
+
+
 
 
         if($habitaciones){
@@ -381,7 +381,7 @@ class ApiController extends Controller
                 [
                     '$group' => [
                         '_id' => '$tipo',
-                        'count' => ['$sum' => 1]
+                        'costoPromedio' => ['$avg' => '$costo']
                     ]
                 ]
             ]);
@@ -391,7 +391,7 @@ class ApiController extends Controller
     foreach($result as $row){
         $data[] = [
             'tipo' => $row->_id,
-            "count" => $row->count
+            "costoPromedio" => $row->costoPromedio
         ];
     }
     return response()->json($data);
@@ -563,7 +563,7 @@ public function checkins_por_año()
             "hora_llegada"=>$request->hora_llegada,
             "fecha_checkin"=>$request->fecha_checkin,
             "fecha_checkout"=>$request->fecha_checkout
-            
+
         ];
         $reserva = Reserva::create([
             "id_huesped" => $request->id_huesped,
