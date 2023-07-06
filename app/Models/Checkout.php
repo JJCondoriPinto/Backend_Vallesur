@@ -10,13 +10,19 @@ class Checkout extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'id_checkin', 
+        'id_checkin',
         'id_recepcionista',
-        'forma_pago',
-        'estado_pago',
         'descripcion_salida',
-        'fecha_salida',
     ];
 
     protected $collection = "Checkouts";
+
+    public function recepcionista (){
+        return $this->belongsTo(User::class, 'id_recepcionista');
+    }
+
+    public function checkin (){
+        return $this->belongsTo(Checkin::class, 'id_checkin');
+    }
+
 }

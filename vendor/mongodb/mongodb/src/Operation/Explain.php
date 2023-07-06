@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *   https://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -33,8 +33,9 @@ use function MongoDB\server_supports_feature;
 /**
  * Operation for the explain command.
  *
+ * @api
  * @see \MongoDB\Collection::explain()
- * @see https://mongodb.com/docs/manual/reference/command/explain/
+ * @see http://docs.mongodb.org/manual/reference/command/explain/
  */
 class Explain implements Executable
 {
@@ -42,7 +43,14 @@ class Explain implements Executable
     public const VERBOSITY_EXEC_STATS = 'executionStats';
     public const VERBOSITY_QUERY = 'queryPlanner';
 
-    private const WIRE_VERSION_FOR_AGGREGATE = 7;
+    /** @var integer */
+    private static $wireVersionForAggregate = 7;
+
+    /** @var integer */
+    private static $wireVersionForDistinct = 4;
+
+    /** @var integer */
+    private static $wireVersionForFindAndModify = 4;
 
     /** @var string */
     private $databaseName;
@@ -58,10 +66,6 @@ class Explain implements Executable
      *
      * Supported options:
      *
-     *  * comment (mixed): BSON value to attach as a comment to this command.
-     *
-     *    This is not supported for servers versions < 4.4.
-     *
      *  * readPreference (MongoDB\Driver\ReadPreference): Read preference.
      *
      *  * session (MongoDB\Driver\Session): Client session.
@@ -76,7 +80,7 @@ class Explain implements Executable
      * @param array       $options      Command options
      * @throws InvalidArgumentException for parameter/option parsing errors
      */
-    public function __construct(string $databaseName, Explainable $explainable, array $options = [])
+    public function __construct($databaseName, Explainable $explainable, array $options = [])
     {
         if (isset($options['readPreference']) && ! $options['readPreference'] instanceof ReadPreference) {
             throw InvalidArgumentException::invalidType('"readPreference" option', $options['readPreference'], ReadPreference::class);
@@ -103,17 +107,32 @@ class Explain implements Executable
      * Execute the operation.
      *
      * @see Executable::execute()
+     * @param Server $server
      * @return array|object
      * @throws UnsupportedException if the server does not support explaining the operation
      * @throws DriverRuntimeException for other driver errors (e.g. connection errors)
      */
     public function execute(Server $server)
     {
-        if ($this->explainable instanceof Aggregate && ! server_supports_feature($server, self::WIRE_VERSION_FOR_AGGREGATE)) {
+        if ($this->explainable instanceof Distinct && ! server_supports_feature($server, self::$wireVersionForDistinct)) {
             throw UnsupportedException::explainNotSupported();
         }
 
-        $cursor = $server->executeCommand($this->databaseName, $this->createCommand(), $this->createOptions());
+        if ($this->isFindAndModify($this->explainable) && ! server_supports_feature($server, self::$wireVersionForFindAndModify)) {
+            throw UnsupportedException::explainNotSupported();
+        }
+
+        if ($this->explainable instanceof Aggregate && ! server_supports_feature($server, self::$wireVersionForAggregate)) {
+            throw UnsupportedException::explainNotSupported();
+        }
+
+        $cmd = ['explain' => $this->explainable->getCommandDocument($server)];
+
+        if (isset($this->options['verbosity'])) {
+            $cmd['verbosity'] = $this->options['verbosity'];
+        }
+
+        $cursor = $server->executeCommand($this->databaseName, new Command($cmd), $this->createOptions());
 
         if (isset($this->options['typeMap'])) {
             $cursor->setTypeMap($this->options['typeMap']);
@@ -123,27 +142,12 @@ class Explain implements Executable
     }
 
     /**
-     * Create the explain command.
-     */
-    private function createCommand(): Command
-    {
-        $cmd = ['explain' => $this->explainable->getCommandDocument()];
-
-        foreach (['comment', 'verbosity'] as $option) {
-            if (isset($this->options[$option])) {
-                $cmd[$option] = $this->options[$option];
-            }
-        }
-
-        return new Command($cmd);
-    }
-
-    /**
      * Create options for executing the command.
      *
-     * @see https://php.net/manual/en/mongodb-driver-server.executecommand.php
+     * @see http://php.net/manual/en/mongodb-driver-server.executecommand.php
+     * @return array
      */
-    private function createOptions(): array
+    private function createOptions()
     {
         $options = [];
 
@@ -156,5 +160,14 @@ class Explain implements Executable
         }
 
         return $options;
+    }
+
+    private function isFindAndModify(Explainable $explainable): bool
+    {
+        if ($explainable instanceof FindAndModify || $explainable instanceof FindOneAndDelete || $explainable instanceof FindOneAndReplace || $explainable instanceof FindOneAndUpdate) {
+            return true;
+        }
+
+        return false;
     }
 }

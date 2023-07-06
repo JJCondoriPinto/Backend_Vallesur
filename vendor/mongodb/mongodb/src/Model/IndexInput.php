@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *   https://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -25,7 +25,7 @@ use function is_float;
 use function is_int;
 use function is_object;
 use function is_string;
-use function MongoDB\document_to_array;
+use function MongoDB\generate_index_name;
 use function sprintf;
 
 /**
@@ -36,7 +36,7 @@ use function sprintf;
  * @internal
  * @see \MongoDB\Collection::createIndexes()
  * @see https://github.com/mongodb/specifications/blob/master/source/enumerate-indexes.rst
- * @see https://mongodb.com/docs/manual/reference/method/db.collection.createIndex/
+ * @see http://docs.mongodb.org/manual/reference/method/db.collection.createIndex/
  */
 class IndexInput implements Serializable
 {
@@ -64,7 +64,7 @@ class IndexInput implements Serializable
         }
 
         if (! isset($index['name'])) {
-            $index['name'] = $this->generateIndexName($index['key']);
+            $index['name'] = generate_index_name($index['key']);
         }
 
         if (! is_string($index['name'])) {
@@ -76,8 +76,10 @@ class IndexInput implements Serializable
 
     /**
      * Return the index name.
+     *
+     * @return string
      */
-    public function __toString(): string
+    public function __toString()
     {
         return $this->index['name'];
     }
@@ -86,30 +88,11 @@ class IndexInput implements Serializable
      * Serialize the index information to BSON for index creation.
      *
      * @see \MongoDB\Collection::createIndexes()
-     * @see https://php.net/mongodb-bson-serializable.bsonserialize
+     * @see http://php.net/mongodb-bson-serializable.bsonserialize
+     * @return array
      */
-    public function bsonSerialize(): array
+    public function bsonSerialize()
     {
         return $this->index;
-    }
-
-    /**
-     * Generate an index name from a key specification.
-     *
-     * @param array|object $document Document containing fields mapped to values,
-     *                               which denote order or an index type
-     * @throws InvalidArgumentException if $document is not an array or object
-     */
-    private function generateIndexName($document): string
-    {
-        $document = document_to_array($document);
-
-        $name = '';
-
-        foreach ($document as $field => $type) {
-            $name .= ($name !== '' ? '_' : '') . $field . '_' . $type;
-        }
-
-        return $name;
     }
 }

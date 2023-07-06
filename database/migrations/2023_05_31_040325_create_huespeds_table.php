@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('Huespedes', function (Blueprint $table) {
             $table->id();
             $table->string('tipo_identificacion');
-            $table->integer('identificacion');
+            $table->integer('identificacion')->unique();
             $table->string('nombres');
             $table->string('apellidos');
             $table->integer('telefono');

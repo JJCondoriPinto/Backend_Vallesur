@@ -33,7 +33,7 @@ class DatabaseSeeder extends Seeder
             'name'=>'admin',
             'email'=>'admin@gmail.com',
                 'password'=>Hash::make('12345678'),
-                'role'=>'admin'
+                'rol'=>'admin'
         ]);
 
         User::create([
@@ -45,7 +45,7 @@ class DatabaseSeeder extends Seeder
             'name' => 'maria',
             'email' => 'maria@gmail.com',
             'password' => Hash::make('password123'),
-            'role' => 'admin'
+            'rol' => 'admin'
         ]);
 
 
@@ -58,7 +58,7 @@ class DatabaseSeeder extends Seeder
             'name' => 'pedro',
             'email' => 'pedro@gmail.com',
             'password' => Hash::make('password456'),
-            'role' => 'admin'
+            'rol' => 'admin'
         ]);
 
 
@@ -71,7 +71,7 @@ class DatabaseSeeder extends Seeder
             'name' => 'ana',
             'email' => 'ana@gmail.com',
             'password' => Hash::make('password789'),
-            'role' => 'admin'
+            'rol' => 'admin'
         ]);
 
 
@@ -84,7 +84,7 @@ class DatabaseSeeder extends Seeder
             'name' => 'carlos',
             'email' => 'carlos@gmail.com',
             'password' => Hash::make('passwordabc'),
-            'role' => 'admin'
+            'rol' => 'admin'
         ]);
 
 
@@ -93,10 +93,10 @@ class DatabaseSeeder extends Seeder
             'name'=>'gerente',
             'email'=>'gerente@gmail.com',
             'password'=>Hash::make('12345678'),
-            'role'=>'gerente'
+            'rol'=>'gerente'
         ]);
 
-        $checkin = [
+        /* $checkin = [
             [
                 'id_checkin' => 1,
                 'id_huesped' => 1,
@@ -768,6 +768,6 @@ class DatabaseSeeder extends Seeder
                 'tipo' => 'Alimentos'
             ],
         ];
-        Servicio::insert($Servicios);
+        Servicio::insert($Servicios); */
     }
 }

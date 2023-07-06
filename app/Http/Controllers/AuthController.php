@@ -57,7 +57,8 @@ class AuthController extends Controller
         }
     }
 
-    public function login(Request $request) {
+    public function login(Request $request)
+    {
 
         $request->validate([
             'email' => 'required|email',
@@ -75,7 +76,8 @@ class AuthController extends Controller
         return $token;
     }
 
-    public function logout() {
+    public function logout()
+    {
 
         // Borrar los datos de autenticación del guardia
         $guard = Auth::guard('sanctum');
@@ -135,5 +137,23 @@ class AuthController extends Controller
             "status" => 200,
             "message" => "Administrador creado correctamente"
         ]);
+    }
+
+    public function getUser(Request $req)
+    {
+        $user = Auth::guard('sanctum')->user();
+        if ($user) {
+            return response()->json([
+                "status" => 200,
+                "message" => "Bienvenido",
+                "data" => $user
+            ]);
+        } else {
+            return response()->json([
+                "status" => 400,
+                "message" => "Error",
+                "data" => []
+            ], 400);
+        }
     }
 }
