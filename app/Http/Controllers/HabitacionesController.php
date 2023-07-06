@@ -54,6 +54,7 @@ class HabitacionesController extends Controller
         $habitacion = new Habitacion;
 
         $habitacion -> nro_habitacion = $request -> nro_habitacion;
+        $habitacion -> nro_piso = $request -> nro_piso;
         $habitacion -> tipo_habitacion = $request -> tipo_habitacion;
         $habitacion -> tamaño = $request -> tamaño;
         $habitacion -> precio = $request -> precio;
@@ -91,6 +92,7 @@ class HabitacionesController extends Controller
         if ($habitacion) {
 
             $habitacion -> nro_habitacion = $request -> nro_habitacion;
+            $habitacion -> nro_piso = $request -> nro_piso;
             $habitacion -> tipo_habitacion = $request -> tipo_habitacion;
             $habitacion -> tamaño = $request -> tamaño;
             $habitacion -> precio = $request -> precio;
