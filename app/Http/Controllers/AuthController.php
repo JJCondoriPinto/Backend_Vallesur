@@ -30,30 +30,16 @@ class AuthController extends Controller
 
     public function checkAuthRole(Request $request)
     {
-        if ($request->input("rol") == "gerente") {
-            if (Auth::guard('sanctum')->check() && Auth::guard('sanctum')->user()->rol == "gerente") {
-                return response()->json([
-                    "status" => 200,
-                    "message" => "pasa"
-                ]);
-            } else {
-                return response()->json([
-                    "status" => 400,
-                    "message" => "no pasa"
-                ]);
-            }
-        } else if ($request->input("rol") == "admin") {
-            if (Auth::guard('sanctum')->check() && Auth::guard('sanctum')->user()->rol == "admin") {
-                return response()->json([
-                    "status" => 200,
-                    "message" => "pasa"
-                ]);
-            } else {
-                return response()->json([
-                    "status" => 400,
-                    "message" => "no pasa"
-                ]);
-            }
+        if (Auth::guard('sanctum')->check() && Auth::guard('sanctum')->user()->rol == $request->input("rol")) {
+            return response()->json([
+                "status" => 200,
+                "message" => "pasa"
+            ]);
+        } else {
+            return response()->json([
+                "status" => 400,
+                "message" => "no pasa"
+            ]);
         }
     }
 
@@ -62,7 +48,7 @@ class AuthController extends Controller
 
         $request->validate([
             'email' => 'required|email',
-            'password' => 'required',
+            'password' => 'required|min:8',
         ]);
 
         $user = User::where('email', $request->email)->first();
@@ -107,7 +93,7 @@ class AuthController extends Controller
             "nombres" => "required|string|max:255",
             "email" => "required|string|email|max:255|unique:users",
             "password" => "required|string|min:8",
-            "rol" => "required|string|min:4",
+            "rol" => "required|string",
         ]);
 
         if ($validator->fails()) {

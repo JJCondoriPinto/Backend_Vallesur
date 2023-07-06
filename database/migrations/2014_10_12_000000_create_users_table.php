@@ -17,10 +17,10 @@ return new class extends Migration
             $table->id();
             $table->string('nombres');
             $table->string('apellidos');
-            $table->integer('dni', 8);
+            $table->integer('dni', 8)->unique();
             $table->string('turno');
             $table->integer('telefono', 9);
-            $table->enum('rol',['admin','gerente'])->default('admin');
+            $table->enum('rol',['recepcionista','gerente'])->default('recepcionista');
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');

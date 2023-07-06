@@ -32,8 +32,8 @@ class DatabaseSeeder extends Seeder
             'telefono' => '917235120',
             'name'=>'admin',
             'email'=>'admin@gmail.com',
-                'password'=>Hash::make('12345678'),
-                'rol'=>'admin'
+            'password'=>Hash::make('12345678'),
+            'rol'=>'recepcionista'
         ]);
 
         User::create([
@@ -45,7 +45,7 @@ class DatabaseSeeder extends Seeder
             'name' => 'maria',
             'email' => 'maria@gmail.com',
             'password' => Hash::make('password123'),
-            'rol' => 'admin'
+            'rol' => 'recepcionista'
         ]);
 
 
@@ -58,7 +58,7 @@ class DatabaseSeeder extends Seeder
             'name' => 'pedro',
             'email' => 'pedro@gmail.com',
             'password' => Hash::make('password456'),
-            'rol' => 'admin'
+            'rol' => 'recepcionista'
         ]);
 
 
@@ -71,7 +71,7 @@ class DatabaseSeeder extends Seeder
             'name' => 'ana',
             'email' => 'ana@gmail.com',
             'password' => Hash::make('password789'),
-            'rol' => 'admin'
+            'rol' => 'recepcionista'
         ]);
 
 
@@ -84,7 +84,7 @@ class DatabaseSeeder extends Seeder
             'name' => 'carlos',
             'email' => 'carlos@gmail.com',
             'password' => Hash::make('passwordabc'),
-            'rol' => 'admin'
+            'rol' => 'recepcionista'
         ]);
 
 
