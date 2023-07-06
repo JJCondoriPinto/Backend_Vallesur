@@ -57,8 +57,10 @@ class HabitacionesController extends Controller
         $habitacion -> tipo_habitacion = $request -> tipo_habitacion;
         $habitacion -> tamaño = $request -> tamaño;
         $habitacion -> precio = $request -> precio;
-        $habitacion -> estado = $request -> estado;
+        $habitacion -> estado = "Libre";
+        $habitacion -> cant_reservas = [];
         $habitacion -> caracteristicas = $request -> caracteristicas;
+        $habitacion -> imagen = $request -> imagen;
 
         try {
 
@@ -94,6 +96,7 @@ class HabitacionesController extends Controller
             $habitacion -> precio = $request -> precio;
             $habitacion -> estado = $request -> estado;
             $habitacion -> caracteristicas = $request -> caracteristicas;
+            $habitacion -> imagen = $request -> imagen;
 
             try {
 
