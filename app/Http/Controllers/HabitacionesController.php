@@ -50,7 +50,6 @@ class HabitacionesController extends Controller
      */
     public function create(Request $request)
     {
-
         $habitacion = new Habitacion;
 
         $habitacion -> nro_habitacion = $request -> nro_habitacion;
@@ -86,8 +85,7 @@ class HabitacionesController extends Controller
      */
     public function update(Request  $request)
     {
-
-        $habitacion = Habitacion::find( $request -> id );
+        $habitacion = Habitacion::find( $request -> _id );
 
         if ($habitacion) {
 

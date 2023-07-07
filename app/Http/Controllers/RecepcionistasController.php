@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
 class RecepcionistasController extends Controller
@@ -115,21 +116,33 @@ class RecepcionistasController extends Controller
      */
     public function update(Request $request)
     {
-        $recepcionista = User::find($request -> id);
+        $recepcionista = User::find($request -> _id);
 
         if($recepcionista) {
 
             try {
 
-                $recepcionista = User::update([
-                    "nombres" => $request->input("nombres"),
-                    "apellidos" => $request->input("apellidos"),
-                    "dni" => $request->input("dni"),
-                    "turno" => $request->input("turno"),
-                    "telefono" => $request->input("telefono"),
-                    "email" => $request->input("email"),
-                    "password" => $request->input("password"),
-                ]);
+                if ($request -> tipo == 'updateUser') {
+
+                    if ($request -> password != '') {
+
+                        $recepcionista -> password = Hash::make($request->password);
+
+                    }
+
+                    $recepcionista -> email = $request -> email;
+
+                } else {
+
+                    $recepcionista -> nombres = $request -> nombres;
+                    $recepcionista -> apellidos = $request -> apellidos;
+                    $recepcionista -> dni = $request -> dni;
+                    $recepcionista -> turno = $request -> turno;
+                    $recepcionista -> telefono = $request -> telefono;
+
+                }
+
+                $recepcionista -> save();
 
                 return response()->json([
                     "message" => "Recepcionista actualizado correctamente"
