@@ -23,6 +23,5 @@ class Huesped extends Model
         'direccion',
         'telefono',
         'correo',
-        'empresa'
     ];
 }

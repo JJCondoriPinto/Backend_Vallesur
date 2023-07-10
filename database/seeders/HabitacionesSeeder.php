@@ -25,8 +25,10 @@ class HabitacionesSeeder extends Seeder
                 "nro_piso" => "2",
                 "tipo_habitacion" => "Doble Estándar",
                 "precio" => 160.00,
-                "estado" => "Libre",
+                "estado" => "Disponible",
                 "tamaño" => "10.10 m2",
+                "reservado_desde"=>"",
+                "reservado_hasta"=>"",
                 "caracteristicas" => [
                     "television" => [
                         "cantidad" => 1,
@@ -41,9 +43,6 @@ class HabitacionesSeeder extends Seeder
                         "descripcion" => "Cama 1.5 plazas"
                     ],
                 ],
-                "cant_reservas" => [
-                    ""
-                ],
                 "imagen" => "https://image-tc.galaxy.tf/wijpeg-axw5v17qr09qa28z5mfpaam09/delfines-hotel-peru-lima-accommodation-superior-room-tripadvisor-booking-bed_standard.jpg?crop=67%2C0%2C1067%2C800"
             ],
             [
@@ -51,8 +50,10 @@ class HabitacionesSeeder extends Seeder
                 "nro_piso" => "2",
                 "tipo_habitacion" => "Individual",
                 "precio" => 140.00,
-                "estado" => "Libre",
+                "estado" => "Disponible",
                 "tamaño" => "5.95 m2",
+                "reservado_desde"=>"",
+                "reservado_hasta"=>"",
                 "caracteristicas" => [
                     "television" => [
                         "cantidad" => 1,
@@ -66,9 +67,6 @@ class HabitacionesSeeder extends Seeder
                         "cantidad" => 1,
                         "descripcion" => "Cama 1.5 plazas"
                     ],
-                ],
-                "cant_reservas" => [
-                    ""
                 ],
                 "imagen" => "https://image-tc.galaxy.tf/wijpeg-axw5v17qr09qa28z5mfpaam09/delfines-hotel-peru-lima-accommodation-superior-room-tripadvisor-booking-bed_standard.jpg?crop=67%2C0%2C1067%2C800"
             ],
@@ -77,8 +75,10 @@ class HabitacionesSeeder extends Seeder
                 "nro_piso" => "2",
                 "tipo_habitacion" => "Individual",
                 "precio" => 140.00,
-                "estado" => "Libre",
+                "estado" => "Disponible",
                 "tamaño" => "5.95 m2",
+                "reservado_desde"=>"",
+                "reservado_hasta"=>"",
                 "caracteristicas" => [
                     "television" => [
                         "cantidad" => 1,
@@ -92,9 +92,6 @@ class HabitacionesSeeder extends Seeder
                         "cantidad" => 1,
                         "descripcion" => "Cama 1.5 plazas"
                     ],
-                ],
-                "cant_reservas" => [
-                    ""
                 ],
                 "imagen" => "https://image-tc.galaxy.tf/wijpeg-axw5v17qr09qa28z5mfpaam09/delfines-hotel-peru-lima-accommodation-superior-room-tripadvisor-booking-bed_standard.jpg?crop=67%2C0%2C1067%2C800"
             ],
@@ -103,8 +100,10 @@ class HabitacionesSeeder extends Seeder
                 "nro_piso" => "2",
                 "tipo_habitacion" => "Individual",
                 "precio" => 140.00,
-                "estado" => "Libre",
+                "estado" => "Disponible",
                 "tamaño" => "5.95 m2",
+                "reservado_desde"=>"",
+                "reservado_hasta"=>"",
                 "caracteristicas" => [
                     "television" => [
                         "cantidad" => 1,
@@ -118,9 +117,6 @@ class HabitacionesSeeder extends Seeder
                         "cantidad" => 1,
                         "descripcion" => "Cama 1.5 plazas"
                     ],
-                ],
-                "cant_reservas" => [
-                    ""
                 ],
                 "imagen" => "https://image-tc.galaxy.tf/wijpeg-axw5v17qr09qa28z5mfpaam09/delfines-hotel-peru-lima-accommodation-superior-room-tripadvisor-booking-bed_standard.jpg?crop=67%2C0%2C1067%2C800"
             ],
@@ -129,8 +125,10 @@ class HabitacionesSeeder extends Seeder
                 "nro_piso" => "2",
                 "tipo_habitacion" => "Individual",
                 "precio" => 140.00,
-                "estado" => "Libre",
+                "estado" => "Disponible",
                 "tamaño" => "5.95 m2",
+                "reservado_desde"=>"",
+                "reservado_hasta"=>"",
                 "caracteristicas" => [
                     "television" => [
                         "cantidad" => 1,
@@ -144,9 +142,6 @@ class HabitacionesSeeder extends Seeder
                         "cantidad" => 1,
                         "descripcion" => "Cama 1.5 plazas"
                     ],
-                ],
-                "cant_reservas" => [
-                    ""
                 ],
                 "imagen" => "https://image-tc.galaxy.tf/wijpeg-axw5v17qr09qa28z5mfpaam09/delfines-hotel-peru-lima-accommodation-superior-room-tripadvisor-booking-bed_standard.jpg?crop=67%2C0%2C1067%2C800"
             ],
@@ -155,8 +150,10 @@ class HabitacionesSeeder extends Seeder
                 "nro_piso" => "2",
                 "tipo_habitacion" => "Individual",
                 "precio" => 140.00,
-                "estado" => "Libre",
+                "estado" => "Disponible",
                 "tamaño" => "5.95 m2",
+                "reservado_desde"=>"",
+                "reservado_hasta"=>"",
                 "caracteristicas" => [
                     "television" => [
                         "cantidad" => 1,
@@ -171,9 +168,6 @@ class HabitacionesSeeder extends Seeder
                         "descripcion" => "Cama 1.5 plazas"
                     ],
                 ],
-                "cant_reservas" => [
-                    ""
-                ],
                 "imagen" => "https://image-tc.galaxy.tf/wijpeg-axw5v17qr09qa28z5mfpaam09/delfines-hotel-peru-lima-accommodation-superior-room-tripadvisor-booking-bed_standard.jpg?crop=67%2C0%2C1067%2C800"
             ],
             [
@@ -181,8 +175,10 @@ class HabitacionesSeeder extends Seeder
                 "nro_piso" => "3",
                 "tipo_habitacion" => "Doble",
                 "precio" => 240.00,
-                "estado" => "Libre",
+                "estado" => "Disponible",
                 "tamaño" => "9.10 m2",
+                "reservado_desde"=>"",
+                "reservado_hasta"=>"",
                 "caracteristicas" => [
                     "television" => [
                         "cantidad" => 1,
@@ -201,9 +197,6 @@ class HabitacionesSeeder extends Seeder
                         "descripcion" => "1.5 m2"
                     ]
                 ],
-                "cant_reservas" => [
-                    ""
-                ],
                 "imagen" => "https://image-tc.galaxy.tf/wijpeg-axw5v17qr09qa28z5mfpaam09/delfines-hotel-peru-lima-accommodation-superior-room-tripadvisor-booking-bed_standard.jpg?crop=67%2C0%2C1067%2C800"
             ],
             [
@@ -211,8 +204,10 @@ class HabitacionesSeeder extends Seeder
                 "nro_piso" => "3",
                 "tipo_habitacion" => "Doble Superior",
                 "precio" => 180.00,
-                "estado" => "Libre",
+                "estado" => "Disponible",
                 "tamaño" => "11.90 m2",
+                "reservado_desde"=>"",
+                "reservado_hasta"=>"",
                 "caracteristicas" => [
                     "television" => [
                         "cantidad" => 1,
@@ -231,9 +226,6 @@ class HabitacionesSeeder extends Seeder
                         "descripcion" => "1.5 m2"
                     ]
                 ],
-                "cant_reservas" => [
-                    ""
-                ],
                 "imagen" => "https://image-tc.galaxy.tf/wijpeg-axw5v17qr09qa28z5mfpaam09/delfines-hotel-peru-lima-accommodation-superior-room-tripadvisor-booking-bed_standard.jpg?crop=67%2C0%2C1067%2C800"
             ],
             [
@@ -241,8 +233,10 @@ class HabitacionesSeeder extends Seeder
                 "nro_piso" => "3",
                 "tipo_habitacion" => "Suite Queen",
                 "precio" => 280.00,
-                "estado" => "Libre",
+                "estado" => "Disponible",
                 "tamaño" => "12.50 m2",
+                "reservado_desde"=>"",
+                "reservado_hasta"=>"",
                 "caracteristicas" => [
                     "television" => [
                         "cantidad" => 1,
@@ -270,9 +264,6 @@ class HabitacionesSeeder extends Seeder
                         "descripcion" => "2.0 m2"
                     ]
                 ],
-                "cant_reservas" => [
-                    ""
-                ],
                 "imagen" => "https://image-tc.galaxy.tf/wijpeg-axw5v17qr09qa28z5mfpaam09/delfines-hotel-peru-lima-accommodation-superior-room-tripadvisor-booking-bed_standard.jpg?crop=67%2C0%2C1067%2C800"
             ],
             [
@@ -280,8 +271,10 @@ class HabitacionesSeeder extends Seeder
                 "nro_piso" => "3",
                 "tipo_habitacion" => "Doble Estándar",
                 "precio" => 160.00,
-                "estado" => "Libre",
+                "estado" => "Disponible",
                 "tamaño" => "10.20 m2",
+                "reservado_desde"=>"",
+                "reservado_hasta"=>"",
                 "caracteristicas" => [
                     "television" => [
                         "cantidad" => 1,
@@ -296,9 +289,6 @@ class HabitacionesSeeder extends Seeder
                         "descripcion" => "Cama 1.5 plazas"
                     ],
                 ],
-                "cant_reservas" => [
-                    ""
-                ],
                 "imagen" => "https://image-tc.galaxy.tf/wijpeg-axw5v17qr09qa28z5mfpaam09/delfines-hotel-peru-lima-accommodation-superior-room-tripadvisor-booking-bed_standard.jpg?crop=67%2C0%2C1067%2C800"
             ],
             [
@@ -306,8 +296,10 @@ class HabitacionesSeeder extends Seeder
                 "nro_piso" => "3",
                 "tipo_habitacion" => "Triple",
                 "precio" => 320.00,
-                "estado" => "Libre",
+                "estado" => "Disponible",
                 "tamaño" => "14.20 m2",
+                "reservado_desde"=>"",
+                "reservado_hasta"=>"",
                 "caracteristicas" => [
                     "television" => [
                         "cantidad" => 1,
@@ -322,9 +314,6 @@ class HabitacionesSeeder extends Seeder
                         "descripcion" => "Cama 1.5 plazas"
                     ],
                 ],
-                "cant_reservas" => [
-                    "B1"
-                ],
                 "imagen" => "https://image-tc.galaxy.tf/wijpeg-axw5v17qr09qa28z5mfpaam09/delfines-hotel-peru-lima-accommodation-superior-room-tripadvisor-booking-bed_standard.jpg?crop=67%2C0%2C1067%2C800"
             ],
             [
@@ -332,8 +321,10 @@ class HabitacionesSeeder extends Seeder
                 "nro_piso" => "4",
                 "tipo_habitacion" => "Suite King",
                 "precio" => 330.00,
-                "estado" => "Libre",
+                "estado" => "Disponible",
                 "tamaño" => "15.75 m2",
+                "reservado_desde"=>"",
+                "reservado_hasta"=>"",
                 "caracteristicas" => [
                     "television" => [
                         "cantidad" => 1,
@@ -360,9 +351,6 @@ class HabitacionesSeeder extends Seeder
                         "descripcion" => "2.0 m2"
                     ]
                 ],
-                "cant_reservas" => [
-                    ""
-                ],
                 "imagen" => "https://image-tc.galaxy.tf/wijpeg-axw5v17qr09qa28z5mfpaam09/delfines-hotel-peru-lima-accommodation-superior-room-tripadvisor-booking-bed_standard.jpg?crop=67%2C0%2C1067%2C800"
             ],
             [
@@ -370,8 +358,10 @@ class HabitacionesSeeder extends Seeder
                 "nro_piso" => "4",
                 "tipo_habitacion" => "Doble Superior",
                 "precio" => 180.00,
-                "estado" => "Libre",
+                "estado" => "Disponible",
                 "tamaño" => "11.90 m2",
+                "reservado_desde"=>"",
+                "reservado_hasta"=>"",
                 "caracteristicas" => [
                     "television" => [
                         "cantidad" => 1,
@@ -389,9 +379,6 @@ class HabitacionesSeeder extends Seeder
                         "cantidad" => 1,
                         "descripcion" => "1.5 m2"
                     ]
-                ],
-                "cant_reservas" => [
-                    ""
                 ],
                 "imagen" => "https://image-tc.galaxy.tf/wijpeg-axw5v17qr09qa28z5mfpaam09/delfines-hotel-peru-lima-accommodation-superior-room-tripadvisor-booking-bed_standard.jpg?crop=67%2C0%2C1067%2C800"
             ],
@@ -400,8 +387,10 @@ class HabitacionesSeeder extends Seeder
                 "nro_piso" => "4",
                 "tipo_habitacion" => "Doble Superior",
                 "precio" => 180.00,
-                "estado" => "Libre",
+                "estado" => "Disponible",
                 "tamaño" => "11.90 m2",
+                "reservado_desde"=>"",
+                "reservado_hasta"=>"",
                 "caracteristicas" => [
                     "television" => [
                         "cantidad" => 1,
@@ -420,9 +409,6 @@ class HabitacionesSeeder extends Seeder
                         "descripcion" => "1.5 m2"
                     ]
                 ],
-                "cant_reservas" => [
-                    ""
-                ],
                 "imagen" => "https://image-tc.galaxy.tf/wijpeg-axw5v17qr09qa28z5mfpaam09/delfines-hotel-peru-lima-accommodation-superior-room-tripadvisor-booking-bed_standard.jpg?crop=67%2C0%2C1067%2C800"
             ],
             [
@@ -430,8 +416,10 @@ class HabitacionesSeeder extends Seeder
                 "nro_piso" => "4",
                 "tipo_habitacion" => "Suite Queen",
                 "precio" => 280.00,
-                "estado" => "Libre",
+                "estado" => "Disponible",
                 "tamaño" => "12.50 m2",
+                "reservado_desde"=>"",
+                "reservado_hasta"=>"",
                 "caracteristicas" => [
                     "television" => [
                         "cantidad" => 1,
@@ -458,9 +446,6 @@ class HabitacionesSeeder extends Seeder
                         "descripcion" => "2.0 m2"
                     ]
                 ],
-                "cant_reservas" => [
-                    ""
-                ],
                 "imagen" => "https://image-tc.galaxy.tf/wijpeg-axw5v17qr09qa28z5mfpaam09/delfines-hotel-peru-lima-accommodation-superior-room-tripadvisor-booking-bed_standard.jpg?crop=67%2C0%2C1067%2C800"
             ],
             [
@@ -468,8 +453,10 @@ class HabitacionesSeeder extends Seeder
                 "nro_piso" => "4",
                 "tipo_habitacion" => "Doble Estándar",
                 "precio" => 160.00,
-                "estado" => "Libre",
+                "estado" => "Disponible",
                 "tamaño" => "10.20 m2",
+                "reservado_desde"=>"",
+                "reservado_hasta"=>"",
                 "caracteristicas" => [
                     "television" => [
                         "cantidad" => 1,
@@ -484,9 +471,6 @@ class HabitacionesSeeder extends Seeder
                         "descripcion" => "Cama 1.5 plazas"
                     ],
                 ],
-                "cant_reservas" => [
-                    ""
-                ],
                 "imagen" => "https://image-tc.galaxy.tf/wijpeg-axw5v17qr09qa28z5mfpaam09/delfines-hotel-peru-lima-accommodation-superior-room-tripadvisor-booking-bed_standard.jpg?crop=67%2C0%2C1067%2C800"
             ],
             [
@@ -494,8 +478,10 @@ class HabitacionesSeeder extends Seeder
                 "nro_piso" => "4",
                 "tipo_habitacion" => "Triple",
                 "precio" => 320.00,
-                "estado" => "Libre",
+                "estado" => "Disponible",
                 "tamaño" => "14.20 m2",
+                "reservado_desde"=>"",
+                "reservado_hasta"=>"",
                 "caracteristicas" => [
                     "television" => [
                         "cantidad" => 1,
@@ -510,9 +496,6 @@ class HabitacionesSeeder extends Seeder
                         "descripcion" => "Cama 1.5 plazas"
                     ],
                 ],
-                "cant_reservas" => [
-                    ""
-                ],
                 "imagen" => "https://image-tc.galaxy.tf/wijpeg-axw5v17qr09qa28z5mfpaam09/delfines-hotel-peru-lima-accommodation-superior-room-tripadvisor-booking-bed_standard.jpg?crop=67%2C0%2C1067%2C800"
             ],
             [
@@ -520,8 +503,10 @@ class HabitacionesSeeder extends Seeder
                 "nro_piso" => "5",
                 "tipo_habitacion" => "Suite Queen",
                 "precio" => 280.00,
-                "estado" => "Libre",
+                "estado" => "Disponible",
                 "tamaño" => "12.50 m2",
+                "reservado_desde"=>"",
+                "reservado_hasta"=>"",
                 "caracteristicas" => [
                     "television" => [
                         "cantidad" => 1,
@@ -548,9 +533,6 @@ class HabitacionesSeeder extends Seeder
                         "descripcion" => "2.0 m2"
                     ]
                 ],
-                "cant_reservas" => [
-                    "B2"
-                ],
                 "imagen" => "https://image-tc.galaxy.tf/wijpeg-axw5v17qr09qa28z5mfpaam09/delfines-hotel-peru-lima-accommodation-superior-room-tripadvisor-booking-bed_standard.jpg?crop=67%2C0%2C1067%2C800"
             ],
             [
@@ -558,8 +540,10 @@ class HabitacionesSeeder extends Seeder
                 "nro_piso" => "5",
                 "tipo_habitacion" => "Individual",
                 "precio" => 140.00,
-                "estado" => "Libre",
+                "estado" => "Disponible",
                 "tamaño" => "5.95 m2",
+                "reservado_desde"=>"",
+                "reservado_hasta"=>"",
                 "caracteristicas" => [
                     "television" => [
                         "cantidad" => 1,
@@ -573,9 +557,6 @@ class HabitacionesSeeder extends Seeder
                         "cantidad" => 1,
                         "descripcion" => "Cama 1.5 plazas"
                     ],
-                ],
-                "cant_reservas" => [
-                    ""
                 ],
                 "imagen" => "https://image-tc.galaxy.tf/wijpeg-axw5v17qr09qa28z5mfpaam09/delfines-hotel-peru-lima-accommodation-superior-room-tripadvisor-booking-bed_standard.jpg?crop=67%2C0%2C1067%2C800"
             ],
@@ -584,8 +565,10 @@ class HabitacionesSeeder extends Seeder
                 "nro_piso" => "5",
                 "tipo_habitacion" => "Individual",
                 "precio" => 140.00,
-                "estado" => "Libre",
+                "estado" => "Disponible",
                 "tamaño" => "7.95 m2",
+                "reservado_desde"=>"",
+                "reservado_hasta"=>"",
                 "caracteristicas" => [
                     "television" => [
                         "cantidad" => 1,
@@ -599,9 +582,6 @@ class HabitacionesSeeder extends Seeder
                         "cantidad" => 1,
                         "descripcion" => "Cama 1.5 plazas"
                     ],
-                ],
-                "cant_reservas" => [
-                    ""
                 ],
                 "imagen" => "https://image-tc.galaxy.tf/wijpeg-axw5v17qr09qa28z5mfpaam09/delfines-hotel-peru-lima-accommodation-superior-room-tripadvisor-booking-bed_standard.jpg?crop=67%2C0%2C1067%2C800"
             ],
@@ -610,8 +590,10 @@ class HabitacionesSeeder extends Seeder
                 "nro_piso" => "5",
                 "tipo_habitacion" => "Individual",
                 "precio" => 140.00,
-                "estado" => "Libre",
+                "estado" => "Disponible",
                 "tamaño" => "5.95 m2",
+                "reservado_desde"=>"",
+                "reservado_hasta"=>"",
                 "caracteristicas" => [
                     "television" => [
                         "cantidad" => 1,
@@ -625,9 +607,6 @@ class HabitacionesSeeder extends Seeder
                         "cantidad" => 1,
                         "descripcion" => "Cama 1.5 plazas"
                     ],
-                ],
-                "cant_reservas" => [
-                    ""
                 ],
                 "imagen" => "https://image-tc.galaxy.tf/wijpeg-axw5v17qr09qa28z5mfpaam09/delfines-hotel-peru-lima-accommodation-superior-room-tripadvisor-booking-bed_standard.jpg?crop=67%2C0%2C1067%2C800"
             ],
@@ -636,8 +615,10 @@ class HabitacionesSeeder extends Seeder
                 "nro_piso" => "5",
                 "tipo_habitacion" => "Individual",
                 "precio" => 140.00,
-                "estado" => "Libre",
+                "estado" => "Disponible",
                 "tamaño" => "5.95 m2",
+                "reservado_desde"=>"",
+                "reservado_hasta"=>"",
                 "caracteristicas" => [
                     "television" => [
                         "cantidad" => 1,
@@ -652,9 +633,6 @@ class HabitacionesSeeder extends Seeder
                         "descripcion" => "Cama 1.5 plazas"
                     ],
                 ],
-                "cant_reservas" => [
-                    ""
-                ],
                 "imagen" => "https://image-tc.galaxy.tf/wijpeg-axw5v17qr09qa28z5mfpaam09/delfines-hotel-peru-lima-accommodation-superior-room-tripadvisor-booking-bed_standard.jpg?crop=67%2C0%2C1067%2C800"
             ],
             [
@@ -662,8 +640,10 @@ class HabitacionesSeeder extends Seeder
                 "nro_piso" => "5",
                 "tipo_habitacion" => "Doble",
                 "precio" => 240.00,
-                "estado" => "Libre",
+                "estado" => "Disponible",
                 "tamaño" => "9.10 m2",
+                "reservado_desde"=>"",
+                "reservado_hasta"=>"",
                 "caracteristicas" => [
                     "television" => [
                         "cantidad" => 1,
@@ -681,9 +661,6 @@ class HabitacionesSeeder extends Seeder
                         "cantidad" => 1,
                         "descripcion" => "1.5 m2"
                     ]
-                ],
-                "cant_reservas" => [
-                    ""
                 ],
                 "imagen" => "https://image-tc.galaxy.tf/wijpeg-axw5v17qr09qa28z5mfpaam09/delfines-hotel-peru-lima-accommodation-superior-room-tripadvisor-booking-bed_standard.jpg?crop=67%2C0%2C1067%2C800"
             ]

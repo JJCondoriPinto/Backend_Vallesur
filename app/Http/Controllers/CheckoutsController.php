@@ -68,11 +68,11 @@ class CheckoutsController extends Controller
         $checkin = Checkin::find($request->input("id_checkin"))->first();
 
         if ($checkin) {
-            $checkin->estado = "pasado";
+            $checkin->estado = "Pasado";
             $checkin->save();
 
             $habitacion = Habitacion::where('nro_habitacion', $checkin->nro_habitacion)->get();
-            $habitacion->estado = "Libre";
+            $habitacion->estado = "Limpieza";
             $habitacion->save();
         }
 

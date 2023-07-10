@@ -35,8 +35,20 @@ class HabitacionesController extends Controller
      */
     public function index(Request  $request)
     {
+        $query = Habitacion::query();
 
-        $habitaciones = Habitacion::all();
+        if ($request->has("order")) {
+            $ordenamiento = $request->input("order");
+            $direccion = $request->has("by") ? $request->input("by") : "asc";
+
+            $query->orderBy($ordenamiento, $direccion);
+        }
+        $estado="Disponible";
+        if($request->has('estado')){
+            $estado=$request->estado;
+        }
+
+        $habitaciones = $query->where('estado',$estado)->get();
 
         return response()->json([
             "data" => $habitaciones

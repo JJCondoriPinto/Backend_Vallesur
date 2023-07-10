@@ -35,11 +35,11 @@ Route::post("/auth"     , [AuthController::class,  "checkAuth"     ]) -> name('c
 //----END POINTS PARA CONSUMO----//
 
 //End point para registrar reservas
-Route::post("/reserva", [ReservasController::class, "storeReservas" ]) -> name('storeReserva');
+Route::post("/reserva", [ReservasController::class, "storeReserva" ]) -> name('storeReserva');
 //End point para ver Reservas
-Route::get("/reserva", [ReservasController::class, "listReservas" ]) -> name('listReservas');
+//Route::get("/reserva", [ReservasController::class, "listReservas" ]) -> name('listReservas');
 //End point para sacar reservas de un solo huesped.
-Route::get("/reserva/{id}", [ReservasController::class, "listaReservaFromOne" ]) -> name('getReserva');
+Route::get("/reserva-huesped/{id}", [ReservasController::class, "listaReservaFromOne" ]) -> name('getReserva');
 //End point para ver Reservas (index)
 Route::get("/reserva", [ReservasController::class, "index" ]) -> name('indexReserva');
 //End point para ver una Reserva
@@ -48,6 +48,10 @@ Route::get("/reserva/{id}", [ReservasController::class, "show" ]) -> name('showR
 Route::delete("/reserva", [ReservasController::class, "destroy" ]) -> name('deleteReserva');
 //End point para actualizar una reserva
 Route::put("/reserva", [ReservasController::class, "update" ]) -> name('updateReserva');
+//End point para consumir reservas para los horarios
+Route::get("/reserva-horarios", [ReservasController::class, "reservasHorarios" ]) -> name('updateReserva');
+//End point para cancelar reserva (no devolucion)
+Route::put("/reserva-cancelar/{id}", [ReservasController::class, "cancelarReserva" ]) -> name('cancelarReserva');
 
 //End point para registrar CheckIn
 Route::post("/checkin",[CheckinsController::class, "storeCheckIn" ]) -> name('storeCheckin');
@@ -100,6 +104,8 @@ Route::get("/huespedes/{id}", [HuespedesController::class, "show"])-> name('show
 Route::delete("/huespedes", [HuespedesController::class, "destroy"]) -> name('deleteHuesped');
 //End point para actualizar un huesped especificado.
 Route::put("/huespedes/{id}", [HuespedesController::class, "update"])-> name('updateHuesped');
+//End point para actualizar un huesped especificado.
+Route::get("/dataReniec", [HuespedesController::class, "dataFromReniec"])-> name('dataReniec');
 
 //End point para crear un recepcionista
 Route::post("/recepcionistas", [RecepcionistasController::class, "create"]) -> name('storeRecepcionista');

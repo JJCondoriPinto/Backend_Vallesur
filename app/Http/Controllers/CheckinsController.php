@@ -61,7 +61,7 @@ class CheckinsController extends Controller
             "nro_habitacion" => "required|integer",
             "id_recepcionista" => "required|string",
             "tipo_reserva" => "required|string",
-            "paxs" => "required|integer",
+            "paxs" => "required|array",
             "cantidad_dias" => "required|integer",
             "motivo_viaje" => "required|string",
             "fecha_ingreso" => "required|date",
@@ -84,7 +84,7 @@ class CheckinsController extends Controller
             "motivo_viaje" => $request->input("motivo_viaje"),
             "fecha_ingreso" => $request->input("fecha_ingreso"),
             "nota_adicionales" => $request->input("nota_adicionales"),
-            "estado" => "active"
+            "estado" => "Activo"
         ]);
 
         $habitacion = Habitacion::where('nro_habitacion', $request->input('nro_habitacion'))->get();
