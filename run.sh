@@ -31,10 +31,10 @@ declare -a start_seed_habit=("artisan" "db:seed" "HabitacionesSeeder")
 info "** Starting Laravel project **"
 
 # migraciones iniciales
-php "${start_migrate[@]}"
+# php "${start_migrate[@]}"
 
 # seeder para primeros usuarios
-php "${start_seed[@]}"
-php "${start_seed_habit[@]}"
+# php "${start_seed[@]}"
+# php "${start_seed_habit[@]}"
 
 php "${start_flags[@]}"

@@ -96,7 +96,7 @@ return [
         'mongodb' => [
             'driver' => 'mongodb',
             'database' => env('DB_DATABASE'),
-            'dsn' => 'mongodb://localhost:27017/',
+            'dsn' => 'mongodb://cljc0qnt700c39sqm6w94b9wq:upxw2MqW8g98oJ2y5LdkgAJb@cljc0qnt900euqm9s9pbsw50h:27017/?readPreference=primary&ssl=false',
         ]
 
     ],
