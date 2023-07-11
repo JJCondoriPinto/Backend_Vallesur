@@ -61,7 +61,7 @@ Route::get("/checkin",[CheckinsController::class, "listCheckIn" ]) -> name('list
 //End point para mostrar un CheckIn
 Route::get("/checkin/{id}",[CheckinsController::class, "show" ]) -> name('showCheckin');
 //End point para actualizar un CheckIn
-Route::put("/checkin/{id}",[CheckinsController::class, "update" ]) -> name('updateCheckin');;
+Route::put("/checkin/{id}",[CheckinsController::class, "update" ]) -> name('updateCheckin');
 //End point para eliminar un CheckIn
 /* Route::delete("/checkin",[CheckinsController::class, "destroy" ]) -> name('deleteCheckin');; */
 
