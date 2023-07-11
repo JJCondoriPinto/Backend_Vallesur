@@ -47,7 +47,7 @@ Route::get("/reserva/{id}", [ReservasController::class, "show" ]) -> name('showR
 //End point para eliminar una reserva
 /* Route::delete("/reserva", [ReservasController::class, "destroy" ]) -> name('deleteReserva'); */
 //End point para actualizar una reserva
-Route::put("/reserva", [ReservasController::class, "update" ]) -> name('updateReserva');  
+Route::put("/reserva", [ReservasController::class, "update" ]) -> name('updateReserva');
 // Borre el index porque no me sireve ya que tengo el listReservas
 //End point para consumir reservas para los horarios
 Route::get("/reserva-horarios", [ReservasController::class, "reservasHorarios" ]) -> name('updateReserva');
@@ -129,7 +129,9 @@ Route::get("grafico_barras_2",[GraficosController::class,"servicios_mas_consumid
 // End point para obtener la cantidad de huespedes que pertenecen a empresas y a que empresas pertenecen
 Route::get("grafico_circular_polar",[GraficosController::class,"habitaciones_max_precio"]) -> name('grafico_circular_polar');
 // End point para obtener la cantidad de huespedes que pertenecen a empresas y a que empresas pertenecen
-Route::get("grafico_linear_2",[GraficosController::class,"checkouts_por_año"]) -> name('grafico_linear_2'); 
+Route::get("grafico_linear_2",[GraficosController::class,"checkouts_por_año"]) -> name('grafico_linear_2');
+
+Route::get("/reserva-huesped/{id}", [ReservasController::class, "listaReservaFromOne" ]) -> name('getReserva');
 
 // End points para homes
 Route::get("count/recepcionistas", [HomeController::class, "countRecepcionistas"]);

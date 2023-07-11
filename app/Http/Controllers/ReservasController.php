@@ -13,14 +13,6 @@ class ReservasController extends Controller
 {
 
     /**
-     * Display a listing of the resource.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-
-
-    /**
      * Display the specified resource.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -77,8 +69,8 @@ class ReservasController extends Controller
     public function update(Request $request)
     {
         $reserva = Reserva::find($request->_id);
-    
-        if ($reserva) {    
+
+        if ($reserva) {
             if ($request->has('id_huesped')) {
                 $reserva->id_huesped = $request->id_huesped;
             }
@@ -96,21 +88,21 @@ class ReservasController extends Controller
                     'fecha_checkin' => $request->input('fecha_checkin')
                 ]);
             }
-    
+
             if ($request->has('fecha_checkout')) {
                 $reserva->datosReserva = array_merge($reserva->datosReserva, [
                     'fecha_checkout' => $request->input('fecha_checkout')
                 ]);
             }
-    
+
             if ($request->has('pax_reserva')) {
                 $reserva->datosReserva = array_merge($reserva->datosReserva, [
                     'pax_reserva' => $request->input('pax_reserva')
                 ]);
             }
-    
+
             $reserva->save();
-    
+
             return response()->json([
                 "message" => "Reserva actualizada correctamente"
             ], 200);
@@ -235,7 +227,7 @@ class ReservasController extends Controller
             "datosReserva" => $dataReserva,
             "id_habitacion" => $request->id_habitacion_reserva,
             "estado" => 'Pendiente',
-            
+
         ]);
 
 
@@ -246,7 +238,7 @@ class ReservasController extends Controller
         ], 200);
     }
     public function reservasHorarios()
-    {   
+    {
         $reservas = Reserva::all();
 
         $datosReservas = $reservas->map(function ($reserva) {
