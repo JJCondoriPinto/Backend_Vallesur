@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Checkout;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use App\Models\Checkin;
+use App\Models\Habitacion;
+use App\Models\Reserva;
 
 class CheckoutsController extends Controller
 {
@@ -41,43 +44,42 @@ class CheckoutsController extends Controller
      */
     public function storeCheckOut(Request $request)
     {
-
-        $validator = Validator::make($request->all(), [
+        
+         $validator = Validator::make($request->all(), [
             "id_checkin" => "required|string",
             "id_recepcionista" => "required|string",
-            "forma_pago" => "required|string",
-            "estado_pago" => "required|string",
             "descripcion_salida" => "required|string",
-            "fecha_salida" => "required|string",
+            
         ]);
         if ($validator->fails()) {
             return response()->json([
                 "message" => "No se pudo guardar el check out",
                 "error" => $validator->errors()
             ], 409);
-        }
+        } 
         $checkin = Checkin::find($request->input("id_checkin"))->first();
-
+        
         if ($checkin) {
+            
             $checkin->estado = "pasado";
             $checkin->save();
 
-            $habitacion = Habitacion::where('nro_habitacion', $checkin->nro_habitacion)->get();
+            $reserva = Reserva::find($checkin->id_reserva);
+            $habitacion = Habitacion::find($reserva->id_habitacion);
             $habitacion->estado = "Libre";
-            $habitacion->save();
+            $habitacion->save(); 
         }
 
-        $checkout = Checkout::create([
+
+       $checkout = Checkout::create([
             "id_checkin" => $request->input("id_checkin"),
             "id_recepcionista" => $request->input("id_recepcionista"),
-            "forma_pago" => $request->input("forma_pago"),
-            "estado_pago" => $request->input("estado_pago"),
             "descripcion_salida" => $request->input("descripcion_salida"),
-            "fecha_salida" => $request->input("fecha_salida"),
-        ]);
+        ]); 
 
         return response()->json([
-            "message" => "CheckOut realizado correctamente"
+            "message" => "CheckOut realizado correctamente",
+            "data" => $habitacion
         ], 200);
 
     }

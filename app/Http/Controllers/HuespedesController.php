@@ -42,14 +42,21 @@ class HuespedesController extends Controller
     {
 
         $huesped = Huesped::find( $request -> id );
-
         if ($huesped) {
+            
+            $huespedTieneRegistros=Reserva::where('id_huesped',$request->id);
+            if($huespedTieneRegistros->count()>0){
+                return response()->json([
+                    "message" => "No se pudo eliminar porque este huesped tiene registros",
+                ], 200);
+            }else{
 
-            $huesped -> delete();
-
-            return response()->json([
-                "message" => "Huesped eliminado",
-            ], 200);
+                $huesped -> delete();
+    
+                return response()->json([
+                    "message" => "Huesped eliminado",
+                ], 200);
+            }
         } else {
             return response()->json([
                 "message" => "Huesped no encontrado",
@@ -69,19 +76,12 @@ class HuespedesController extends Controller
         $validator = Validator::make($request->all(), [
             "nombre_huesped" => "required|string|max:255",
             "apellido_huesped" => "required|string|max:255",
-            "tipo_identificacion_huesped" => "required|string|in:DNI,Identificacion Extranjera",
-            "identificacion_huesped" => "required|integer",
-            "sexo_huesped" => "required|string|in:masculino,femenino",
-            "fecha_nacimiento_huesped" => "required|date_format:Y-m-d",
+            "sexo_huesped" => "required|string|in:Masculino,Femenino",
             "nacionalidad_huesped" => "required|string",
             "region_huesped" => "required|string",
             "direccion_huesped" => "required|string",
             "telefono_huesped" => "required|integer",
             "correo_huesped" => "required|string|email|max:255|unique:users",
-            "nombre_empresa" => "max:255",
-            "ruc_empresa" => "max:255",
-            "razon_social_empresa" => "max:255",
-            "direccion_empresa" => "max:255",
         ]);
 
         if ($validator->fails()) {
@@ -103,24 +103,18 @@ class HuespedesController extends Controller
 
             $huesped->update([
                 "identificacion" => [
-                    "tipo_identificacion" => $request->input("tipo_identificacion_huesped"),
-                    "identificacion_huesped" => $request->input("identificacion_huesped")
+                    "tipo_identificacion" => $request->input("tipo_identificacion_huesped")??$huesped->identificacion['tipo_identificacion'],
+                    "identificacion_huesped" => $request->input("identificacion_huesped")??$huesped->identificacion['identificacion_huesped']
                 ],
                 "nombres" => $request->input("nombre_huesped"),
                 "apellidos" => $request->input("apellido_huesped"),
                 "sexo" => $request->input("sexo_huesped"),
-                "fecha_nacimiento" => $request->input("fecha_nacimiento_huesped"),
+                "fecha_nacimiento" => $request->input("fecha_nacimiento_huesped")??$huesped->fecha_nacimiento,
                 "nacionalidad" => $request->input("nacionalidad_huesped"),
                 "region" => $request->input("region_huesped"),
                 "direccion" => $request->input("direccion_huesped"),
                 "telefono" => $request->input("telefono_huesped"),
                 "correo" => $request->input("correo_huesped"),
-                "empresa" => [
-                    "nombre_empresa" => $request->input("nombre_empresa"),
-                    "ruc_empresa" => $request->input("ruc_empresa"),
-                    "razon_social" => $request->input("razon_social_empresa"),
-                    "direccion_empresa" => $request->input("direccion_empresa")
-                ]
             ]);
 
             return response()->json([
