@@ -13,6 +13,8 @@ use App\Models\Huesped;
 use App\Models\Habitacion;
 use App\Models\Checkout;
 use App\Models\Checkin;
+use MongoDB\BSON\ObjectId;
+
 
 class DatabaseSeeder extends Seeder
 {
@@ -23,20 +25,23 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+        
         User::create([
             // Se supone que el id es el dni
-            'dni' => '72912312',
+            '_id' => new ObjectId('610e55516c5ce063389c0001'),
+            'dni' => '75844456',
             'nombres' => "Juan Carlos",
             'apellidos' => "Gutierrez Bolaños",
             'turno' => 'Mañana',
             'telefono' => '917235120',
             'name'=>'admin',
             'email'=>'admin@gmail.com',
-            'password'=>Hash::make('12345678'),
-            'rol'=>'recepcionista'
+                'password'=>Hash::make('12345678'),
+                'rol'=>'recepcionista'
         ]);
-
+        
         User::create([
+            '_id' => new ObjectId('610e55516c5ce063384c0002'),
             'dni' => '12345678',
             'nombres' => 'María Fernández',
             'apellidos' => 'Gómez Rodríguez',
@@ -50,6 +55,7 @@ class DatabaseSeeder extends Seeder
 
 
         User::create([
+            '_id' => new ObjectId('610e55516c5ce063384c0003'),
             'dni' => '87654321',
             'nombres' => 'Pedro Ramírez',
             'apellidos' => 'López Torres',
@@ -63,6 +69,7 @@ class DatabaseSeeder extends Seeder
 
 
         User::create([
+            '_id' => new ObjectId('610e55516c5ce063384c0004'),
             'dni' => '98765432',
             'nombres' => 'Ana López',
             'apellidos' => 'García Pérez',
@@ -76,6 +83,7 @@ class DatabaseSeeder extends Seeder
 
 
         User::create([
+            '_id' => new ObjectId('610e55516c5ce063384c0005'),
             'dni' => '54321678',
             'nombres' => 'Carlos Martínez',
             'apellidos' => 'Sánchez Gómez',
@@ -86,8 +94,6 @@ class DatabaseSeeder extends Seeder
             'password' => Hash::make('passwordabc'),
             'rol' => 'recepcionista'
         ]);
-
-
 
         User::create([
             'name'=>'gerente',

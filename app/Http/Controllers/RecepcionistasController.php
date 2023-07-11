@@ -45,7 +45,7 @@ class RecepcionistasController extends Controller
         $recepcionista -> telefono = $request -> telefono;
         $recepcionista -> rol = $request -> rol;
         $recepcionista -> email = $request -> email;
-        $recepcionista -> password = $request -> password;
+        $recepcionista -> password = Hash::make($request->password);
 
         try {
 
@@ -178,7 +178,7 @@ class RecepcionistasController extends Controller
     public function listRecepcionistas(Request $request)
     {
 
-        $administradores = User::where('rol', 'admin')->get();
+        $administradores = User::where('rol', 'recepcionista')->get();
 
         if ($administradores) {
             $cantidad = $administradores->count();

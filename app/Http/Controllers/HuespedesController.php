@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Huesped;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Http;
+
 
 class HuespedesController extends Controller
 {
@@ -294,6 +296,25 @@ class HuespedesController extends Controller
                 "message" => "No se han encontrado huespedes"
             ], 404);
         }
+    }
+
+    public function dataFromReniec(Request $request){
+        $validator = Validator::make($request->all(), [
+            "dni" => "required|string",
+        ]);
+        if ($validator->fails()) {
+            return response()->json([
+                'message' => "Revisa tus datos",
+                'error' => $validator->errors(),
+            ], 404);
+        }
+        $token="ce9c64f737107914696992ffa76c9fbd1b997ca5bab5a8d7f46957e3f3c3e1a4";
+        $dni=$request->dni;
+        $url="https://apiperu.dev/api/dni/$dni?api_token=$token";
+        $response = Http::get($url);
+        return response()->json(
+            json_decode($response,false)
+        );
     }
 
 }

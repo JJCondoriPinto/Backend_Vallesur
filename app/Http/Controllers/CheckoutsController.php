@@ -8,18 +8,6 @@ use Illuminate\Support\Facades\Validator;
 
 class CheckoutsController extends Controller
 {
-
-    public function index(Request $request)
-    {
-
-        $checkouts = Checkout::all();
-
-        return response()->json([
-            "data" => $checkouts,
-        ], 200);
-
-    }
-
     /**
      * Display a listing of the resource.
      *
@@ -27,18 +15,21 @@ class CheckoutsController extends Controller
      */
     public function listCheckOut()
     {
-        $checksOut = Checkout::all();
-        if ($checksOut) {
-            $cantidad = $checksOut->count();
+        $query = Checkout::query();
+        $checkOut = $query->with("recepcionista")->with("checkin")->with("checkin.reserva.huesped")->with("checkin.recepcionista")->get();
+        if ($checkOut) {
+            $cantidad = $checkOut->count();
             return response()->json([
+                "status" => 400,
                 "message" => "Se encontraron $cantidad check outs",
-                "data" => $checksOut
-            ], 200);
+                "data" => $checkOut
+            ]);
         } else {
             return response()->json([
+                "status" => 400,
                 "message" => "No hay Check Outs",
                 "data" => [],
-            ], 404);
+            ]);
         }
     }
 
@@ -97,9 +88,9 @@ class CheckoutsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function show(Request $request)
+    public function show(Request $request,$id)
     {
-        $checkout = Checkout::find($request->id);
+        $checkout = Checkout::with("recepcionista")->with("checkin")->with("checkin.reserva.huesped")->with("checkin.recepcionista")->find($id);
 
         if ($checkout) {
 

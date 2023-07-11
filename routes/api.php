@@ -10,6 +10,8 @@ use App\Http\Controllers\GraficosController;
 use App\Http\Controllers\HuespedesController;
 use App\Http\Controllers\RecepcionistasController;
 use App\Http\Controllers\ReservasController;
+use App\Http\Controllers\RemindController;
+use App\Http\Controllers\HomeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -38,40 +40,39 @@ Route::post("/auth"     , [AuthController::class,  "checkAuth"     ]) -> name('c
 Route::post("/reserva", [ReservasController::class, "storeReservas" ]) -> name('storeReserva');
 //End point para ver Reservas
 Route::get("/reserva", [ReservasController::class, "listReservas" ]) -> name('listReservas');
-//End point para sacar reservas de un solo huesped.
-Route::get("/reserva/{id}", [ReservasController::class, "listaReservaFromOne" ]) -> name('getReserva');
-//End point para ver Reservas (index)
-Route::get("/reserva", [ReservasController::class, "index" ]) -> name('indexReserva');
 //End point para ver una Reserva
 Route::get("/reserva/{id}", [ReservasController::class, "show" ]) -> name('showReserva');
+//End point para sacar reservas de un solo huesped.
+/* Route::get("/reserva/{id}", [ReservasController::class, "listaReservaFromOne" ]) -> name('getReserva'); */
 //End point para eliminar una reserva
-Route::delete("/reserva", [ReservasController::class, "destroy" ]) -> name('deleteReserva');
+/* Route::delete("/reserva", [ReservasController::class, "destroy" ]) -> name('deleteReserva'); */
 //End point para actualizar una reserva
-Route::put("/reserva", [ReservasController::class, "update" ]) -> name('updateReserva');
+Route::put("/reserva", [ReservasController::class, "update" ]) -> name('updateReserva');  
+// Borre el index porque no me sireve ya que tengo el listReservas
+//End point para consumir reservas para los horarios
+Route::get("/reserva-horarios", [ReservasController::class, "reservasHorarios" ]) -> name('updateReserva');
+//End point para cancelar reserva (no devolucion)
+Route::put("/reserva-cancelar/{id}", [ReservasController::class, "cancelarReserva" ]) -> name('cancelarReserva');
 
 //End point para registrar CheckIn
 Route::post("/checkin",[CheckinsController::class, "storeCheckIn" ]) -> name('storeCheckin');
 //End point para listar CheckIn
 Route::get("/checkin",[CheckinsController::class, "listCheckIn" ]) -> name('listCheckin');
-//End point para mostrar todos los CheckIns
-Route::get("/checkin",[CheckinsController::class, "index" ]) -> name('indexCheckin');
 //End point para mostrar un CheckIn
 Route::get("/checkin/{id}",[CheckinsController::class, "show" ]) -> name('showCheckin');
 //End point para actualizar un CheckIn
-Route::put("/checkin",[CheckinsController::class, "update" ]) -> name('updateCheckin');;
+Route::put("/checkin/{id}",[CheckinsController::class, "update" ]) -> name('updateCheckin');;
 //End point para eliminar un CheckIn
-Route::delete("/checkin",[CheckinsController::class, "destroy" ]) -> name('deleteCheckin');;
+/* Route::delete("/checkin",[CheckinsController::class, "destroy" ]) -> name('deleteCheckin');; */
 
 //End point para registrar CheckOut
 Route::post("/checkout",[CheckoutsController::class, "storeCheckOut" ]) -> name('storeCheckout');
 //End point para listar CheckOut
 Route::get("/checkout",[CheckoutsController::class, "listCheckOut" ]) -> name('listCheckout');
-//End point para mostrar todos los CheckOuts
-Route::get("/checkout",[CheckoutsController::class, "index" ]) -> name('indexCheckout');
 //End pointp ara mostrar un CheckOut
 Route::get("/checkout/{id}",[CheckoutsController::class, "show" ]) -> name('showCheckout');
 //End point para eliminar un CheckOut
-Route::delete("/checkout",[CheckoutsController::class, "destroy" ]) -> name('deleteCheckout');
+/* Route::delete("/checkout",[CheckoutsController::class, "destroy" ]) -> name('deleteCheckout'); */
 
 //End point para crear una habitación
 Route::post("/habitaciones", [HabitacionesController::class, "create"]) -> name('storeHabitacion');
@@ -100,6 +101,9 @@ Route::get("/huespedes/{id}", [HuespedesController::class, "show"])-> name('show
 Route::delete("/huespedes", [HuespedesController::class, "destroy"]) -> name('deleteHuesped');
 //End point para actualizar un huesped especificado.
 Route::put("/huespedes/{id}", [HuespedesController::class, "update"])-> name('updateHuesped');
+//End point para actualizar un huesped especificado.
+Route::get("/dataReniec", [HuespedesController::class, "dataFromReniec"])-> name('dataReniec');
+
 
 //End point para crear un recepcionista
 Route::post("/recepcionistas", [RecepcionistasController::class, "create"]) -> name('storeRecepcionista');
@@ -123,7 +127,21 @@ Route::get("grafico_circular_1",[GraficosController::class,"administrador_por_tu
 // End point para obtener datos de grafico de barras 2
 Route::get("grafico_barras_2",[GraficosController::class,"servicios_mas_consumidos"])-> name('grafico_barras_2');
 // End point para obtener la cantidad de huespedes que pertenecen a empresas y a que empresas pertenecen
-Route::get("grafico_circular_polar",[GraficosController::class,"personas_por_empresa"]) -> name('grafico_circular_polar');
+Route::get("grafico_circular_polar",[GraficosController::class,"habitaciones_max_precio"]) -> name('grafico_circular_polar');
+// End point para obtener la cantidad de huespedes que pertenecen a empresas y a que empresas pertenecen
+Route::get("grafico_linear_2",[GraficosController::class,"checkouts_por_año"]) -> name('grafico_linear_2'); 
+
+// End points para homes
+Route::get("count/recepcionistas", [HomeController::class, "countRecepcionistas"]);
+Route::get("count/checkins", [HomeController::class, "countCheckins"]);
+Route::get("count/checkouts", [HomeController::class, "countCheckouts"]);
+Route::get("count/habitaciones", [HomeController::class, "countHabitaciones"]);
+Route::get("count/huespedes", [HomeController::class, "countHuespedes"]);
+Route::get("count/reservas", [HomeController::class, "countReservas"]);
+
+Route::post("home/remind", [RemindController::class, "create"]);
+Route::get("home/remind", [RemindController::class, "index"]);
+Route::delete("home/remind/{id}", [RemindController::class, "destroy"]);
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
