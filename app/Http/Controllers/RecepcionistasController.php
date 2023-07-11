@@ -45,7 +45,7 @@ class RecepcionistasController extends Controller
         $recepcionista -> telefono = $request -> telefono;
         $recepcionista -> rol = $request -> rol;
         $recepcionista -> email = $request -> email;
-        $recepcionista -> password = Hash::make($request->password);
+        $recepcionista -> password = Hash::make($request -> password);
 
         try {
 
