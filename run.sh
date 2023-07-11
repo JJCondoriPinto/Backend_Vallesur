@@ -25,16 +25,28 @@ start_migrate+=("$@")
 
 declare -a start_seed=("artisan" "db:seed" "DatabaseSeeder")
 start_seed+=("$@")
-
-declare -a start_seed_habit=("artisan" "db:seed" "HabitacionesSeeder")
+declare -a start_seed1=("artisan" "db:seed" "CheckinSeeder")
+start_seed1+=("$@")
+declare -a start_seed2=("artisan" "db:seed" "CheckoutSeeder")
+start_seed2+=("$@")
+declare -a start_seed3=("artisan" "db:seed" "HabitacionesSeeder")
+start_seed3+=("$@")
+declare -a start_seed4=("artisan" "db:seed" "HuespedSeeder")
+start_seed4+=("$@")
+declare -a start_seed5=("artisan" "db:seed" "ReservaSeeder")
+start_seed5+=("$@")
 
 info "** Starting Laravel project **"
 
 # migraciones iniciales
-# php "${start_migrate[@]}"
+php "${start_migrate[@]}"
 
-# seeder para primeros usuarios
-# php "${start_seed[@]}"
-# php "${start_seed_habit[@]}"
+# # seeder para primeros usuarios
+php "${start_seed[@]}"
+php "${start_seed1[@]}"
+php "${start_seed2[@]}"
+php "${start_seed3[@]}"
+php "${start_seed4[@]}"
+php "${start_seed5[@]}"
 
 php "${start_flags[@]}"

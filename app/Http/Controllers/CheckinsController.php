@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Checkin;
 use App\Models\Habitacion;
+use App\Models\Reserva;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -15,16 +16,7 @@ class CheckinsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
-    {
 
-        $checkins = Checkin::all();
-
-        return response()->json([
-            "data" => $checkins,
-        ], 200);
-
-    }
 
     /**
      * Display a listing of the resource (custom).
@@ -33,18 +25,22 @@ class CheckinsController extends Controller
      */
     public function listCheckIn()
     {
-        $checksIn = Checkin::all();
+        // 
+        $query = Checkin::query();
+        $checksIn = $query->with("recepcionista")->with("reserva")->with("reserva.huesped")->with("reserva.habitacion")->get();
         if ($checksIn) {
             $cantidad = $checksIn->count();
             return response()->json([
+                "status" => 200,
                 "message" => "Se encontraron $cantidad check in",
                 "data" => $checksIn
-            ], 200);
+            ]);
         } else {
             return response()->json([
+                "status" => 400,
                 "message" => "No se encontraron Check In",
                 "data" => [],
-            ], 404);
+            ], 400);
         }
     }
 
@@ -56,55 +52,48 @@ class CheckinsController extends Controller
      */
     public function storeCheckIn(Request $request)
     {
+        //
+        //dd($request);
         $validator = Validator::make($request->all(), [
-            "id_huesped" => "required|integer|unique:users",
-            "nro_habitacion" => "required|integer",
+            "id_reserva" => "required|string",
             "id_recepcionista" => "required|string",
-            "tipo_reserva" => "required|string",
-            "paxs" => "required|integer",
-            "cantidad_dias" => "required|integer",
-            "motivo_viaje" => "required|string",
+            "paxs" => "required|array",
             "fecha_ingreso" => "required|date",
             "nota_adicionales" => "required|string",
+
         ]);
         if ($validator->fails()) {
             return response()->json([
-                "message" => "No se pudo guardar el checkin",
+                "status" => 400,
+                "message" => "No se pudo guardar el check in",
                 "error" => $validator->errors()
-            ], 409);
+            ], 400);
         }
-
-        Checkin::create([
-            "id_huesped" => $request->input("id_huesped"),
-            "nro_habitacion" => $request->input("nro_habitacion"),
+        Reserva::find($request->input("id_reserva"))->update(['estado' => 'Completo']);
+        $checkin = Checkin::create([
+            "id_reserva" => $request->input("id_reserva"),
             "id_recepcionista" => $request->input("id_recepcionista"),
-            "tipo_reserva" => $request->input("tipo_reserva"),
             "paxs" => $request->input("paxs"),
-            "cantidad_dias" => $request->input("cantidad_dias"),
-            "motivo_viaje" => $request->input("motivo_viaje"),
             "fecha_ingreso" => $request->input("fecha_ingreso"),
             "nota_adicionales" => $request->input("nota_adicionales"),
             "estado" => "active"
         ]);
-
-        $habitacion = Habitacion::where('nro_habitacion', $request->input('nro_habitacion'))->get();
-        $habitacion->estado = "Ocupado";
-        $habitacion->save();
+        /* return redirect()->route("administrador/check"); */
 
         return response()->json([
-            "message" => "CheckIn realizado correctamente"
-        ], 200);
+            "status" => 200,
+            "message" => "Check In realizado correctamente"
+        ]);
     }
-
     /**
      * Display the specified resource.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function show(Request $request)
+    public function show(Request $request,$id)
     {
-        $checkin = Checkin::find($request->id);
+        $checkin = Checkin::with('reserva')->with('reserva.huesped')->with('reserva.habitacion')->with('recepcionista')->find($id);
 
         if ($checkin) {
 
@@ -112,13 +101,11 @@ class CheckinsController extends Controller
                 "message" => "Checkin encontrado",
                 "data" => $checkin,
             ], 200);
-
         } else {
 
             return response()->json([
                 "message" => "Checkin no encontrado",
             ], 404);
-
         }
     }
 
@@ -128,36 +115,45 @@ class CheckinsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request)
+    public function update(Request $request, $id)
     {
-        $checkin = Checkin::find($request -> id);
+        $checkin = Checkin::find($id);
 
-        if($checkin) {
+        if ($checkin) {
 
-            $checkin = Checkin::update([
-                "id_huesped" => $request->input("id_huesped"),
-                "nro_habitacion" => $request->input("nro_habitacion"),
-                "id_recepcionista" => $request->input("id_recepcionista"),
-                "tipo_reserva" => $request->input("tipo_reserva"),
-                "paxs" => $request->input("paxs"),
-                "cantidad_dias" => $request->input("cantidad_dias"),
-                "motivo_viaje" => $request->input("motivo_viaje"),
-                "fecha_ingreso" => $request->input("fecha_ingreso"),
-                "nota_adicionales" => $request->input("nota_adicionales"),
-                "estado" => $request->input("estado"),
+            $id_reserva = $checkin->id_reserva;
+            $reserva = Reserva::find($id_reserva);
+
+
+            $reserva->datosReserva = array_merge($reserva->datosReserva, [
+                'fecha_checkout' => $request->input('fecha_checkout') ?? $reserva->datosReserva['fecha_checkout']
             ]);
 
-            return response()->json([
-                "message" => "Checkin actualizado correctamente"
-            ], 200);
+            $reserva->save();
 
+            return response()->json([
+                "message" => "Checkin actualizado correctamente",
+                "data" => $reserva
+            ], 200);
         } else {
 
             return response()->json([
                 "message" => "Checkin no encontrado"
             ], 404);
-
         }
+
+        /*         $checkin = Checkin::update([
+            "id_huesped" => $request->input("id_huesped"),
+            "nro_habitacion" => $request->input("nro_habitacion"),
+            "id_recepcionista" => $request->input("id_recepcionista"),
+            "tipo_reserva" => $request->input("tipo_reserva"),
+            "paxs" => $request->input("paxs"),
+            "cantidad_dias" => $request->input("cantidad_dias"),
+            "motivo_viaje" => $request->input("motivo_viaje"),
+            "fecha_ingreso" => $request->input("fecha_ingreso"),
+            "nota_adicionales" => $request->input("nota_adicionales"),
+            "estado" => $request->input("estado"),
+        ]); */
     }
 
     /**
@@ -168,7 +164,7 @@ class CheckinsController extends Controller
      */
     public function destroy(Request $request)
     {
-        $checkin = Checkin::find($request -> id);
+        $checkin = Checkin::find($request->id);
 
         if ($checkin) {
 
@@ -176,20 +172,16 @@ class CheckinsController extends Controller
             $habitacion->estado = "Reservado";
             $habitacion->save();
 
-            $checkin -> destroy();
+            $checkin->destroy();
 
             return response()->json([
                 "message" => "Checkin eliminado"
             ], 200);
-
         } else {
 
             return response()->json([
                 "message" => "Checkin no encontrado"
             ], 404);
-
         }
-
     }
-
 }

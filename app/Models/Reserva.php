@@ -14,7 +14,8 @@ class Reserva extends Model
         'id_huesped',
         'id_habitacion',
         'datosReserva',
-        'estado'
+        'estado',
+        'empresa'
     ];
     public function huesped()
     {
