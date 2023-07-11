@@ -43,10 +43,10 @@ php "${start_migrate[@]}"
 
 # # seeder para primeros usuarios
 php "${start_seed[@]}"
-php "${start_seed1[@]}"
-php "${start_seed2[@]}"
+# php "${start_seed1[@]}"
+# php "${start_seed2[@]}"
 php "${start_seed3[@]}"
-php "${start_seed4[@]}"
-php "${start_seed5[@]}"
+# php "${start_seed4[@]}"
+# php "${start_seed5[@]}"
 
 php "${start_flags[@]}"
